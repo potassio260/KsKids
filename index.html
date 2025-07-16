@@ -130,22 +130,79 @@
     .discount-container {
       display: flex;
       position: relative;
-      height: auto;
-      width: auto;
+      height: 100px;
+      width: 100%;
       margin: 0;
       padding: 0;
-      align-items: flex-start;
-      justify-content: flex-start;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
-    .discount-image {
+    .discount-banner {
       display: flex;
-      height: 300px;
-      width: 400px;
-      z-index: 1;
+      align-items: center;
+      justify-content: center;
+      height: 180px;
+      width: 100vw;
       position: relative;
-      top: -58px;
-      object-fit: cover;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      box-shadow: 
+        0 8px 32px rgba(102, 126, 234, 0.4),
+        inset 0 2px 0 rgba(255,255,255,0.2),
+        inset 0 -2px 0 rgba(0,0,0,0.1);
+      overflow: hidden;
+      animation: bannerWave 8s ease-in-out infinite;
+      clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+    }
+
+    .discount-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, 
+        transparent 30%, 
+        rgba(255,255,255,0.15) 50%, 
+        transparent 70%);
+      animation: bannerShimmer 4s ease-in-out infinite;
+    }
+
+    .discount-banner::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+      animation: spotlight 6s ease-in-out infinite;
+    }
+
+    @keyframes bannerWave {
+      0%, 100% { 
+        transform: translateX(-50%) skewY(0deg);
+        filter: hue-rotate(0deg);
+      }
+      50% { 
+        transform: translateX(-50%) skewY(1deg);
+        filter: hue-rotate(10deg);
+      }
+    }
+
+    @keyframes bannerShimmer {
+      0% { transform: translateX(-100%) skewX(-15deg); }
+      100% { transform: translateX(100%) skewX(-15deg); }
+    }
+
+    @keyframes spotlight {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
     }
 
     .discount-wrapper {
@@ -217,14 +274,38 @@
 
     .discount-title {
       position: absolute;
-      top: 32px;
-      left: 50px;
-      color: white;
-      font-size: 40px;
-      font-weight: bold;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-1deg);
+      color: #ffffff;
+      font-size: 42px;
+      font-weight: 700;
+      font-family: 'Lexend', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
       z-index: 3;
       pointer-events: none;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      text-shadow: 
+        2px 2px 0px rgba(0,0,0,0.8),
+        0 0 15px rgba(255,255,255,0.3);
+      background: linear-gradient(135deg, #ffffff, #f0f0f0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: subtleGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes subtleGlow {
+      0%, 100% { 
+        text-shadow: 
+          2px 2px 0px rgba(0,0,0,0.8),
+          0 0 15px rgba(255,255,255,0.3);
+      }
+      50% { 
+        text-shadow: 
+          2px 2px 0px rgba(0,0,0,0.8),
+          0 0 25px rgba(255,255,255,0.5);
+      }
     }
 
     .product-info {
@@ -340,9 +421,21 @@
       opacity: var(--end-opacity);
       border-radius: var(--end-radius);
       z-index: 5;
+    } 
+    @media (max-width: 1250px) {
+      .side-image.left-1,
+      .side-image.right-2 {
+          display: none;
+        }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 870px) {
+      .discount-title {
+        font-size: 36px;
+        letter-spacing: 2px;
+      }
+    
+
       .topbar {
         height: 120px;
         padding: 10px 0;
@@ -477,9 +570,10 @@
   <div class="main">
     <div style="margin: 0; padding: 0; height: 300px; width: 100%;">
       <div class="discount-container">
-        <img src="icons/arrow.png" alt="pic" class="discount-image" />
-        <div class="discount-title">
-          ¡Ofertas!
+        <div class="discount-banner">
+          <div class="discount-title">
+            ¡Descuentos!
+          </div>
         </div>
       </div>
     </div>
