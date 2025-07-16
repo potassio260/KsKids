@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ks Kids Shop</title>
+  <style>
+    body {
+      height: 3000px;
+      margin: 0;
+      padding: 0;
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .topbar {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #ffffff;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+      transition: height 0.3s ease;
+    }
+
+    .topbar-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar-section.left {
+      margin-left: 5px;
+      flex: 0.35;
+    }
+
+    .topbar-section.center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      order: 2;
+    }
+
+    .topbar-section.right {
+      position: absolute;
+      right: 5px;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      border-radius: 28px;
+      background: #f6f6f6;
+      height: 23px;
+    }
+
+    .search-input {
+      font-size: 17px;
+      font-family: 'Lexend', sans-serif;
+      color: #333;
+      width: 32vw;
+      margin-left: 10px;
+      outline: none;
+      border: none;
+      background: transparent;
+    }
+
+    .search-input::placeholder {
+      color: rgba(0, 0, 0, 0.25);
+    }
+
+    .buttons,
+    .search,
+    .arrow-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .buttons:hover,
+    .search:hover,
+    .arrow-button:hover {
+      background-color: #dfd7d7;
+    }
+
+    .main {
+      margin-top: 70px;
+      height: 100%;
+      background-color: #f0f0f0;
+      padding: 0px;
+      width: 100%;
+      transition: margin-top 0.3s ease;
+    }
+
+    .merchandise-img {
+      width: 15vw;
+      height: 15vw;
+      object-fit: contain;
+      border: 1px solid black;
+    }
+
+    .discount-page {
+      position: relative;
+      z-index: 2;
+      height: 350px;
+      width: 925px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .discount-deals {
+      width: 400px;
+    }
+
+    .discount-container {
+      display: flex;
+      position: relative;
+      height: auto;
+      width: auto;
+      margin: 0;
+      padding: 0;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    .discount-image {
+      display: flex;
+      height: 300px;
+      width: 400px;
+      z-index: 1;
+      position: relative;
+      top: -58px;
+      object-fit: cover;
+    }
+
+    .discount-wrapper {
+      position: relative;
+      width: max-content;
+      margin: 0 auto;
+    }
+
+    .side-image {
+      border-radius: 60px;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      height: 450px;
+      width: 160px;
+      z-index: 1;
+      opacity: 0.8;
+      pointer-events: none;
+      border: 2px solid rgb(86, 86, 86);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .side-image.left-1 {
+      left: -175px;
+    }
+
+    .side-image.left-2 {
+      left: 50px;
+    }
+
+    .side-image.right-1 {
+      right: 50px;
+    }
+
+    .side-image.right-2 {
+      right: -175px;
+    }
+
+    .main-imagebox {
+      height: 480px;
+      width: calc(340px);
+      display: flex;
+      margin: auto;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      border-radius: 30px 30px 0 0;
+      border:2px solid #555;
+      background-color: white;
+      object-fit: cover;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .main-image {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: cover;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      position: absolute;
+    }
+
+    .underscore-bar {
+      background-color: grey;
+      width: 70vw;
+      height: 2px;
+      margin: auto;
+    }
+
+    .discount-title {
+      position: absolute;
+      top: 32px;
+      left: 50px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      z-index: 3;
+      pointer-events: none;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .product-info {
+      width: 300px;
+      background-color: rgb(180, 180, 180);
+      height: 100px;
+      border: 2px solid rgb(86, 86, 86);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      border-radius: 0px 0px 60px 60px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .product-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin: 0 0 10px 0;
+    }
+
+    .product-price {
+      font-size: 28px;
+      font-weight: bold;
+      color: #e74c3c;
+      margin: 0;
+    }
+
+    .notification {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background-color: #2ecc71;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      z-index: 1001;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.3s ease;
+    }
+
+    .notification.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 250px;
+      height: 100vh;
+      z-index: 1002;
+      transition: left 0.3s ease;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      background-color: white;
+      padding: 80px 20px 20px 20px;
+      overflow-y: auto; /* ✅ Just in case content overflows */
+    }
+
+    .menu-overlay.open {
+      left: 0;
+    }
+
+    .menu-item {
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu-item:hover {
+      background-color: #f8f8f8;
+    }
+
+    .menu-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .menu-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* Transition classes for smooth movement */
+    .transitioning-to-main {
+      transform: translateX(var(--start-x)) translateY(var(--start-y)) scale(var(--start-scale));
+      opacity: var(--start-opacity);
+      border-radius: var(--start-radius);
+      z-index: 10;
+    }
+
+    .transitioning-from-main {
+      transform: translateX(var(--end-x)) translateY(var(--end-y)) scale(var(--end-scale));
+      opacity: var(--end-opacity);
+      border-radius: var(--end-radius);
+      z-index: 5;
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        height: 120px;
+        padding: 10px 0;
+      }
+
+      .topbar-section.left {
+        flex: 1;
+        order: 1;
+      }
+
+      .topbar-section.center {
+        width: 100%;
+        order: 3;
+        margin-top: 10px;
+        padding: 0 10px;
+      }
+
+      .topbar-section.right {
+        position: static;
+        order: 2;
+        margin-left: auto;
+        margin-right: 5px;
+      }
+
+      .search-input {
+        width: calc(100vw - 100px);
+        min-width: 200px;
+      }
+
+      .search-bar {
+        width: 80%;
+        max-width: none;
+      }
+
+      .main {
+        margin-top: 120px;
+      }
+
+      .notification {
+        top: 130px;
+      }
+      
+      .discount-page {
+        width: 90vw;
+        height: auto;
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .side-image {
+        display: none;
+      }
+      
+      .discount-title {
+        font-size: 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar {
+        height: 130px;
+      }
+
+      .search-input {
+        width: calc(100vw - 80px);
+        font-size: 16px;
+      }
+
+      .main {
+        margin-top: 130px;
+      }
+
+      .notification {
+        top: 140px;
+      }
+      
+      /* Hide arrows on smallest screens */
+      .arrow-button {
+        display: none;
+      }
+      
+      /* Make main image area swipeable */
+      .main-imagebox {
+        touch-action: pan-y;
+        user-select: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-section left">
+      <div class="buttons" onclick="toggleMenu()">
+        <img src="icons/menu.png" height="32px" />
+      </div>
+      <h1 style="margin: 0 15px;">Ks kids</h1>
+    </div>
+
+    <div class="topbar-section center">
+      <div class="search-bar">
+        <input type="text" placeholder="Search" class="search-input" id="searchInput" />
+        <div class="search" onclick="performSearch()">
+          <img src="icons/search.png" height="16px" />
+        </div>
+      </div>
+    </div>
+
+    <div class="topbar-section right">
+      <div class="buttons" onclick="showNotification('You have 3 new notifications!')">
+        <img src="icons/notification-bell.png" height="32px" />
+      </div>
+      <div class="buttons" style="margin: 0 15px;" onclick="showNotification('Customer service is available 24/7!')">
+        <img src="icons/customer-service.png" height="32px" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu Overlay -->
+  <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-item" onclick="navigateTo('home')">🏠 Home</div>
+    <div class="menu-item" onclick="navigateTo('products')">🛍️ Products</div>
+    <div class="menu-item" onclick="navigateTo('offers')">🎁 Offers</div>
+    <div class="menu-item" onclick="navigateTo('about')">ℹ️ About Us</div>
+    <div class="menu-item" onclick="navigateTo('contact')">📞 Contact</div>
+  </div>
+
+  <!-- Notification -->
+  <div class="notification" id="notification"></div>
+
+  <div class="main">
+    <div style="margin: 0; padding: 0; height: 300px; width: 100%;">
+      <div class="discount-container">
+        <img src="icons/arrow.png" alt="pic" class="discount-image" />
+        <div class="discount-title">
+          ¡Ofertas!
+        </div>
+      </div>
+    </div>
+
+    <div class="discount-wrapper">
+      <!-- Side images -->
+      <img src="images/516204036_1213616423896700_999017950145108751_n.jpg" class="side-image left-1" alt="left image" id="sideImageLeft1" />
+      <img src="images/518084926_1213616383896704_1024783052948639362_n.jpg" class="side-image left-2" alt="left image" id="sideImageLeft2" />
+
+      <div class="discount-page">
+        <!-- Arrow left -->
+        <div class="arrow-button" onclick="previousProduct()">
+          <img src="icons/left-arrow.png" alt="arrow" width="25px" />
+        </div>
+        
+        <!-- Main Discount Div -->
+        <div style="flex-direction: column; display: flex; left: 10px; right: 10px;" id="productContainer">
+          <img src="images/516891834_1213616377230038_4997410880746407739_n.jpg" alt="Bebé casi gratis" class="main-imagebox" id="mainProductImage" />
+
+          <div class="product-info">
+            <p class="product-title" id="productTitle">Bebé casi gratis</p>
+            <p class="product-price" id="productPrice">10 €</p>
+          </div>
+        </div>
+        
+        <!-- Arrow right -->
+        <div class="arrow-button" style="margin-left: 4px;" onclick="nextProduct()">
+          <img src="icons/right-arrow.png" alt="arrow" width="25px" />
+        </div>
+      </div>
+
+      <!-- Side images -->
+      <img src="images/518088135_1213616500563359_2083818226617871534_n.jpg" class="side-image right-1" alt="right image" id="sideImageRight1" />
+      <img src="images/518352262_1213616443896698_818288500639219176_n.jpg" class="side-image right-2" alt="right image" id="sideImageRight2" />
+    </div>
+  </div>
+
+  <script>
+    // Product data with actual images
+    const products = [
+      { 
+        name: "Bebé casi gratis", 
+        price: "10 €", 
+        image: "images/516891834_1213616377230038_4997410880746407739_n.jpg" 
+      },
+      { 
+        name: "Juguete Educativo", 
+        price: "25 €", 
+        image: "images/518084926_1213616383896704_1024783052948639362_n.jpg" 
+      },
+      { 
+        name: "Peluche Suave", 
+        price: "15 €", 
+        image: "images/518088135_1213616500563359_2083818226617871534_n.jpg" 
+      },
+      { 
+        name: "Bloques de Construcción", 
+        price: "30 €", 
+        image: "images/518352262_1213616443896698_818288500639219176_n.jpg" 
+      },
+      { 
+        name: "Libro Interactivo", 
+        price: "18 €", 
+        image: "images/516204036_1213616423896700_999017950145108751_n.jpg" 
+      }
+    ];
+
+    let currentProductIndex = 0;
+    let isMenuOpen = false;
+    let isTransitioning = false;
+
+    // Touch/swipe handling variables
+    let startX = 0;
+    let startY = 0;
+    let startTime = 0;
+    let isSwipeActive = false;
+    const swipeThreshold = 50; // Minimum distance for swipe
+    const swipeTimeout = 300; // Maximum time for swipe
+
+    // Menu functionality
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      const menuOverlay = document.getElementById('menuOverlay');
+      const menuBackdrop = document.getElementById('menuBackdrop');
+      
+      if (isMenuOpen) {
+        menuOverlay.classList.add('open');
+        menuBackdrop.classList.add('open');
+      } else {
+        menuOverlay.classList.remove('open');
+        menuBackdrop.classList.remove('open');
+      }
+    }
+
+    // Navigation
+    function navigateTo(section) {
+      showNotification(`Navigating to ${section}...`);
+      toggleMenu();
+      
+      // Add loading state
+      document.body.classList.add('loading');
+      setTimeout(() => {
+        document.body.classList.remove('loading');
+      }, 1000);
+    }
+
+    // Search functionality
+    function performSearch() {
+      const searchInput = document.getElementById('searchInput');
+      const query = searchInput.value.trim();
+      
+      if (query) {
+        showNotification(`Searching for: "${query}"`);
+        searchInput.value = '';
+        
+        // Simulate search loading
+        const searchButton = document.querySelector('.search');
+        searchButton.style.opacity = '0.5';
+        setTimeout(() => {
+          searchButton.style.opacity = '1';
+        }, 1000);
+      } else {
+        showNotification('Please enter a search term');
+      }
+    }
+
+    // Search on Enter key
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    // Enhanced product carousel functionality with smooth transitions
+    function updateProduct(direction = 'next') {
+      if (isTransitioning) return;
+      isTransitioning = true;
+
+      const product = products[currentProductIndex];
+      const mainImage = document.getElementById('mainProductImage');
+      const productInfo = document.querySelector('.product-info');
+      
+      // Get the source image element based on direction
+      let sourceImage;
+      if (direction === 'next') {
+        sourceImage = document.getElementById('sideImageRight1');
+      } else {
+        sourceImage = document.getElementById('sideImageLeft2');
+      }
+
+      // Create a clone of the source image for the transition
+      const transitionImage = sourceImage.cloneNode(true);
+      transitionImage.id = 'transitionImage';
+      transitionImage.style.position = 'absolute';
+      transitionImage.style.zIndex = '10';
+      transitionImage.style.pointerEvents = 'none';
+      
+      // Get positions for the transition
+      const sourceRect = sourceImage.getBoundingClientRect();
+      const mainRect = mainImage.getBoundingClientRect();
+      const containerRect = document.querySelector('.discount-wrapper').getBoundingClientRect();
+      
+      // Calculate relative positions
+      const startX = sourceRect.left - containerRect.left - (mainRect.width / 2) + (sourceRect.width / 2);
+      const startY = sourceRect.top - containerRect.top - (mainRect.height / 2) + (sourceRect.height / 2);
+      const startScale = sourceRect.width / mainRect.width;
+      
+      // Set initial position for transition image
+      transitionImage.style.left = '50%';
+      transitionImage.style.top = '50%';
+      transitionImage.style.transform = `translate(-50%, -50%) translateX(${startX}px) translateY(${startY}px) scale(${startScale})`;
+      transitionImage.style.borderRadius = '60px';
+      transitionImage.style.opacity = '0.8';
+      transitionImage.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      
+      // Add transition image to the main image container
+      document.querySelector('.main-imagebox').appendChild(transitionImage);
+      
+      // Hide the current main image
+      mainImage.style.opacity = '0';
+      mainImage.style.transform = 'scale(0.95)';
+      
+      // Animate the transition image to main position
+      setTimeout(() => {
+        transitionImage.style.transform = 'translate(-50%, -50%) translateX(0px) translateY(0px) scale(1)';
+        transitionImage.style.borderRadius = '30px 30px 0 0';
+        transitionImage.style.opacity = '1';
+        
+        // Update product info with slide effect
+        productInfo.style.transform = 'translateY(20px)';
+        productInfo.style.opacity = '0.7';
+      }, 50);
+      
+      // Update all side images positions
+      updateSideImages();
+      
+      // After transition completes, update the actual main image
+      setTimeout(() => {
+        mainImage.src = product.image;
+        mainImage.alt = product.name;
+        mainImage.style.opacity = '1';
+        mainImage.style.transform = 'scale(1)';
+        
+        // Update product info
+        document.getElementById('productTitle').textContent = product.name;
+        document.getElementById('productPrice').textContent = product.price;
+        
+        productInfo.style.transform = 'translateY(0)';
+        productInfo.style.opacity = '1';
+        
+        // Remove transition image
+        if (transitionImage.parentNode) {
+          transitionImage.parentNode.removeChild(transitionImage);
+        }
+        
+        isTransitioning = false;
+      }, 600);
+    }
+
+    function updateSideImages() {
+      const leftImage1 = document.getElementById('sideImageLeft1');
+      const leftImage2 = document.getElementById('sideImageLeft2');
+      const rightImage1 = document.getElementById('sideImageRight1');
+      const rightImage2 = document.getElementById('sideImageRight2');
+      
+      // Calculate indices for surrounding images
+      const prevIndex = (currentProductIndex - 1 + products.length) % products.length;
+      const nextIndex = (currentProductIndex + 1) % products.length;
+      const prev2Index = (currentProductIndex - 2 + products.length) % products.length;
+      const next2Index = (currentProductIndex + 2) % products.length;
+      
+      // Add subtle animation to side images
+      const sideImages = [leftImage1, leftImage2, rightImage1, rightImage2];
+      sideImages.forEach(img => {
+        img.style.transform = 'scale(0.95)';
+        img.style.opacity = '0.5';
+      });
+      
+      setTimeout(() => {
+        // Update left side images (previous products)
+        leftImage1.src = products[prev2Index].image;
+        leftImage1.alt = products[prev2Index].name;
+        leftImage2.src = products[prevIndex].image;
+        leftImage2.alt = products[prevIndex].name;
+        
+        // Update right side images (next products)
+        rightImage1.src = products[nextIndex].image;
+        rightImage1.alt = products[nextIndex].name;
+        rightImage2.src = products[next2Index].image;
+        rightImage2.alt = products[next2Index].name;
+        
+        // Restore side images
+        sideImages.forEach(img => {
+          img.style.transform = 'scale(1)';
+          img.style.opacity = '0.8';
+        });
+      }, 300);
+    }
+
+    function nextProduct() {
+      if (isTransitioning) return;
+      currentProductIndex = (currentProductIndex + 1) % products.length;
+      updateProduct('next');
+      showNotification('Next product');
+    }
+
+    function previousProduct() {
+      if (isTransitioning) return;
+      currentProductIndex = (currentProductIndex - 1 + products.length) % products.length;
+      updateProduct('previous');
+      showNotification('Previous product');
+    }
+
+    // Touch/Swipe event handlers
+    function handleTouchStart(e) {
+      if (isTransitioning) return;
+      
+      const touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+      startTime = Date.now();
+      isSwipeActive = true;
+      
+      // Prevent default to avoid scrolling issues
+      e.preventDefault();
+    }
+
+    function handleTouchMove(e) {
+      if (!isSwipeActive || isTransitioning) return;
+      
+      // Prevent default scrolling
+      e.preventDefault();
+    }
+
+    function handleTouchEnd(e) {
+      if (!isSwipeActive || isTransitioning) return;
+      
+      const touch = e.changedTouches[0];
+      const endX = touch.clientX;
+      const endY = touch.clientY;
+      const endTime = Date.now();
+      
+      const deltaX = endX - startX;
+      const deltaY = endY - startY;
+      const deltaTime = endTime - startTime;
+      
+      // Check if it's a valid swipe
+      if (deltaTime < swipeTimeout && Math.abs(deltaX) > swipeThreshold) {
+        // Ensure it's more horizontal than vertical
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          if (deltaX > 0) {
+            // Swipe right - go to previous product
+            previousProduct();
+          } else {
+            // Swipe left - go to next product  
+            nextProduct();
+          }
+        }
+      }
+      
+      isSwipeActive = false;
+    }
+
+    // Initial setup without transition
+    function initializeProduct() {
+      const product = products[currentProductIndex];
+      document.getElementById('productTitle').textContent = product.name;
+      document.getElementById('productPrice').textContent = product.price;
+      document.getElementById('mainProductImage').src = product.image;
+      document.getElementById('mainProductImage').alt = product.name;
+      updateSideImages();
+    }
+
+    // Notification system
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    // Initialize touch events for swipe functionality
+    function initializeTouchEvents() {
+      const productContainer = document.getElementById('productContainer');
+      
+      // Add touch event listeners
+      productContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+      productContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+      productContainer.addEventListener('touchend', handleTouchEnd, { passive: false });
+      
+      // Also add to the main image for better coverage
+      const mainImage = document.getElementById('mainProductImage');
+      mainImage.addEventListener('touchstart', handleTouchStart, { passive: false });
+      mainImage.addEventListener('touchmove', handleTouchMove, { passive: false });
+      mainImage.addEventListener('touchend', handleTouchEnd, { passive: false });
+    }
+
+    
+    // Mobile sidebar closing support
+    let sidebarTouchStartX = 0;
+    let sidebarTouchStartY = 0;
+    let isSidebarSwipeActive = false;
+
+    // Touch handlers for sidebar
+    function handleSidebarTouchStart(e) {
+      const touch = e.touches[0];
+      sidebarTouchStartX = touch.clientX;
+      sidebarTouchStartY = touch.clientY;
+      isSidebarSwipeActive = true;
+    }
+
+    function handleSidebarTouchMove(e) {
+      if (!isSidebarSwipeActive || !isMenuOpen) return;
+      
+      const touch = e.touches[0];
+      const deltaX = touch.clientX - sidebarTouchStartX;
+      const deltaY = Math.abs(touch.clientY - sidebarTouchStartY);
+      
+      // If swiping left and movement is more horizontal than vertical
+      if (deltaX < -30 && deltaY < 50) {
+        e.preventDefault(); // Prevent scrolling
+      }
+    }
+
+    function handleSidebarTouchEnd(e) {
+      if (!isSidebarSwipeActive || !isMenuOpen) return;
+      
+      const touch = e.changedTouches[0];
+      const deltaX = touch.clientX - sidebarTouchStartX;
+      const deltaY = Math.abs(touch.clientY - sidebarTouchStartY);
+      
+      // Swipe left to close (horizontal swipe of at least 50px)
+      if (deltaX < -50 && deltaY < 100) {
+        toggleMenu();
+      }
+      
+      isSidebarSwipeActive = false;
+    }
+
+    // Initialize sidebar touch events
+    function initializeSidebarTouchEvents() {
+      const menuOverlay = document.getElementById('menuOverlay');
+      const menuBackdrop = document.getElementById('menuBackdrop');
+      
+      menuOverlay.addEventListener('touchstart', handleSidebarTouchStart, { passive: false });
+      menuOverlay.addEventListener('touchmove', handleSidebarTouchMove, { passive: false });
+      menuOverlay.addEventListener('touchend', handleSidebarTouchEnd, { passive: false });
+      
+      // Enhanced backdrop touch support
+      menuBackdrop.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+      }, { passive: false });
+      
+      menuBackdrop.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        if (isMenuOpen) {
+          toggleMenu();
+        }
+      }, { passive: false });
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if (isMenuOpen && !e.target.closest('.menu-overlay') && !e.target.closest('.buttons')) {
+        toggleMenu();
+      }
+    });
+
+    // Add smooth transitions to buttons
+    document.querySelectorAll('.buttons, .search, .arrow-button').forEach(button => {
+      button.style.transition = 'all 0.3s ease';
+      
+      button.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.1)';
+      });
+      
+      button.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+      });
+    });
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight') {
+        nextProduct();
+      } else if (e.key === 'ArrowLeft') {
+        previousProduct();
+      } else if (e.key === 'Escape' && isMenuOpen) {
+        toggleMenu();
+      }
+    });
+
+    // Initialize everything
+    initializeProduct();
+    initializeTouchEvents();
+    initializeSidebarTouchEvents();
+    showNotification('Welcome to Ks Kids! 🎉');
+  </script>
+
+</body>
+</html>
