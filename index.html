@@ -763,15 +763,19 @@
       startTime = Date.now();
       isSwipeActive = true;
       
-      // Prevent default to avoid scrolling issues
-      e.preventDefault();
     }
 
     function handleTouchMove(e) {
       if (!isSwipeActive || isTransitioning) return;
       
-      // Prevent default scrolling
-      e.preventDefault();
+      const touch = e.touches[0];
+      const deltaX = touch.clientX - startX;
+      const deltaY = touch.clientY - startY;
+      
+      // Only prevent default if it's clearly a horizontal swipe
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
+        e.preventDefault();
+      }
     }
 
     function handleTouchEnd(e) {
