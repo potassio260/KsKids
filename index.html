@@ -12,6 +12,178 @@
       font-family: 'Lexend', sans-serif;
     }
 
+    
+    .content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        position: relative;
+        top: 250px;
+        padding: 20px 0;
+    }
+
+    .product-box {
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        background: white;
+    }
+
+    .product-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .product-box:hover .product-image img {
+        transform: scale(1.1);
+    }
+
+    .price-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .product-content {
+        padding: 25px;
+        background: white;
+    }
+
+    .product-name {
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+
+    .product-description {
+        color: #7f8c8d;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        margin-bottom: 15px;
+    }
+
+    .product-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+    }
+
+    .product-category {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        color: #2c3e50;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .product-box {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+    .product-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .products-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .product-content {
+            padding: 20px;
+        }
+        
+        .product-name {
+            font-size: 1.2rem;
+        }
+        
+        .product-description {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Stock status */
+    .stock-status {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        padding: 5px 10px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .in-stock {
+        background: rgba(46, 204, 113, 0.9);
+        color: white;
+    }
+
+    .low-stock {
+        background: rgba(241, 196, 15, 0.9);
+        color: white;
+    }
+
+    .out-of-stock {
+        background: rgba(231, 76, 60, 0.9);
+        color: white;
+    }
+
+    .rating {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 10px;
+    }
+
+    .stars {
+        color: #f39c12;
+    }
+
+    .rating-text {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+    }
+
     .topbar {
       height: 70px;
       display: flex;
@@ -111,55 +283,172 @@
       border: 1px solid black;
     }
 
+    /* Enhanced Discount Section */
     .discount-page {
       position: relative;
       z-index: 2;
-      height: 350px;
-      width: 925px;
+      height: 700px;
+      width: min(1000px, 90vw);
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      margin: 0 auto;
+      margin: 40px auto;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      border-radius: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 
+        0 20px 40px rgba(0,0,0,0.1),
+        0 10px 20px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .discount-page::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+      animation: pageShimmer 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pageShimmer {
+      0% { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
+      50% { opacity: 0.3; }
+      100% { transform: translateX(100%) skewX(-15deg); opacity: 0; }
     }
 
     .discount-deals {
-      width: 400px;
+      width: 450px;
+      max-width: 100%;
     }
 
     .discount-container {
       display: flex;
       position: relative;
-      height: 100px;
+      height: 120px;
       width: 100%;
       margin: 0;
       padding: 0;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
     }
 
+  /* Discount Banner */
     .discount-banner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 180px;
-      width: 100vw;
-      position: relative;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-      box-shadow: 
-        0 8px 32px rgba(102, 126, 234, 0.4),
-        inset 0 2px 0 rgba(255,255,255,0.2),
-        inset 0 -2px 0 rgba(0,0,0,0.1);
-      overflow: hidden;
-      animation: bannerWave 8s ease-in-out infinite;
-      clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+        height: 180px;
+        width: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 40px;
     }
 
-    .discount-banner::before {
+    .discount-title {
+        color: white;
+        font-size: 48px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        z-index: 2;
+        position: relative;
+    }
+
+    .discount-wrapper {
+      position: relative;
+      width: max-content;
+      margin: 0 auto;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+    }
+
+    .side-image {
+      border-radius: 25px;
+      object-fit: cover;
+      position: absolute;
+      top: 20px;
+      height: 420px;
+      width: 150px;
+      z-index: 1;
+      opacity: 0.7;
+      pointer-events: none;
+      border: 3px solid rgba(255,255,255,0.3);
+      box-shadow: 
+        0 10px 30px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(2px);
+    }
+
+    .side-image:hover {
+      opacity: 0.9;
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    .side-image.left-1 {
+      left: -180px;
+      transform: perspective(800px) rotateY(15deg) rotateX(5deg);
+    }
+
+    .side-image.left-2 {
+      left: 45px;
+      transform: perspective(800px) rotateY(8deg) rotateX(2deg);
+    }
+
+    .side-image.right-1 {
+      right: 45px;
+      transform: perspective(800px) rotateY(-8deg) rotateX(2deg);
+    }
+
+    .side-image.right-2 {
+      right: -180px;
+      transform: perspective(800px) rotateY(-15deg) rotateX(5deg);
+    }
+
+    .main-imagebox {
+      height: 500px;
+      width: 360px;
+      display: flex;
+      margin: auto;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      border-radius: 35px 35px 0 0;
+      border: 3px solid rgba(255,255,255,0.3);
+      background: linear-gradient(135deg, 
+        rgba(255,255,255,0.95) 0%, 
+        rgba(255,255,255,0.9) 100%);
+      backdrop-filter: blur(10px);
+      box-shadow: 
+        0 20px 40px rgba(0,0,0,0.15),
+        inset 0 2px 0 rgba(255,255,255,0.4),
+        inset 0 -1px 0 rgba(0,0,0,0.1);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .main-imagebox:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 
+        0 30px 60px rgba(0,0,0,0.2),
+        inset 0 2px 0 rgba(255,255,255,0.5),
+        inset 0 -1px 0 rgba(0,0,0,0.1);
+    }
+
+    .main-imagebox::before {
       content: '';
       position: absolute;
       top: 0;
@@ -168,187 +457,143 @@
       bottom: 0;
       background: linear-gradient(45deg, 
         transparent 30%, 
-        rgba(255,255,255,0.15) 50%, 
+        rgba(255,255,255,0.1) 50%, 
         transparent 70%);
-      animation: bannerShimmer 4s ease-in-out infinite;
+      animation: imageShimmer 6s ease-in-out infinite;
+      pointer-events: none;
     }
 
-    .discount-banner::after {
+    @keyframes imageShimmer {
+      0% { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
+      50% { opacity: 0.3; }
+      100% { transform: translateX(100%) skewX(-15deg); opacity: 0; }
+    }
+
+    .main-image {
+      max-height: 95%;
+      max-width: 95%;
+      object-fit: cover;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      position: absolute;
+      border-radius: 15px;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+    }
+
+    .main-image:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15));
+    }
+
+    .underscore-bar {
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(150,150,150,0.5) 20%, 
+        rgba(150,150,150,0.8) 50%, 
+        rgba(150,150,150,0.5) 80%, 
+        transparent 100%);
+      width: 70vw;
+      height: 3px;
+      margin: auto;
+      position: relative;
+      top: 250px;
+      border-radius: 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .product-info {
+      width: 320px;
+      background: linear-gradient(135deg, 
+        rgba(255,255,255,0.9) 0%, 
+        rgba(240,240,240,0.9) 100%);
+      height: 120px;
+      border: 3px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(10px);
+      box-shadow: 
+        0 15px 35px rgba(0,0,0,0.15),
+        inset 0 2px 0 rgba(255,255,255,0.4),
+        inset 0 -1px 0 rgba(0,0,0,0.1);
+      border-radius: 0px 0px 35px 35px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .product-info::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
-      animation: spotlight 6s ease-in-out infinite;
-    }
-
-    @keyframes bannerWave {
-      0%, 100% { 
-        transform: translateX(-50%) skewY(0deg);
-        filter: hue-rotate(0deg);
-      }
-      50% { 
-        transform: translateX(-50%) skewY(1deg);
-        filter: hue-rotate(10deg);
-      }
-    }
-
-    @keyframes bannerShimmer {
-      0% { transform: translateX(-100%) skewX(-15deg); }
-      100% { transform: translateX(100%) skewX(-15deg); }
-    }
-
-    @keyframes spotlight {
-      0%, 100% { opacity: 0.3; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.1); }
-    }
-
-    .discount-wrapper {
-      position: relative;
-      width: max-content;
-      margin: 0 auto;
-    }
-
-    .side-image {
-      border-radius: 60px;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      height: 450px;
-      width: 160px;
-      z-index: 1;
-      opacity: 0.8;
+      background: linear-gradient(45deg, 
+        transparent 40%, 
+        rgba(255,255,255,0.1) 50%, 
+        transparent 60%);
+      animation: infoShimmer 8s ease-in-out infinite;
       pointer-events: none;
-      border: 2px solid rgb(86, 86, 86);
-      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 0px 0px 35px 35px;
     }
 
-    .side-image.left-1 {
-      left: -175px;
+    @keyframes infoShimmer {
+      0% { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
+      50% { opacity: 0.5; }
+      100% { transform: translateX(100%) skewX(-15deg); opacity: 0; }
     }
 
-    .side-image.left-2 {
-      left: 50px;
-    }
-
-    .side-image.right-1 {
-      right: 50px;
-    }
-
-    .side-image.right-2 {
-      right: -175px;
-    }
-
-    .main-imagebox {
-      height: 480px;
-      width: calc(340px);
-      display: flex;
-      margin: auto;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-      border-radius: 30px 30px 0 0;
-      border:2px solid #555;
-      background-color: white;
-      object-fit: cover;
-      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .main-image {
-      max-height: 100%;
-      max-width: 100%;
-      object-fit: cover;
-      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      position: absolute;
-    }
-
-    .underscore-bar {
-      background-color: grey;
-      width: 70vw;
-      height: 2px;
-      margin: auto;
-    }
-
-    .discount-title {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-1deg);
-      color: #ffffff;
-      font-size: 42px;
-      font-weight: 700;
-      font-family: 'Lexend', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      z-index: 3;
-      pointer-events: none;
-      text-shadow: 
-        2px 2px 0px rgba(0,0,0,0.8),
-        0 0 15px rgba(255,255,255,0.3);
-      background: linear-gradient(135deg, #ffffff, #f0f0f0);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: subtleGlow 4s ease-in-out infinite;
-    }
-
-    @keyframes subtleGlow {
-      0%, 100% { 
-        text-shadow: 
-          2px 2px 0px rgba(0,0,0,0.8),
-          0 0 15px rgba(255,255,255,0.3);
-      }
-      50% { 
-        text-shadow: 
-          2px 2px 0px rgba(0,0,0,0.8),
-          0 0 25px rgba(255,255,255,0.5);
-      }
-    }
-
-    .product-info {
-      width: 300px;
-      background-color: rgb(180, 180, 180);
-      height: 100px;
-      border: 2px solid rgb(86, 86, 86);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-      border-radius: 0px 0px 60px 60px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    .product-info:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+        0 25px 50px rgba(0,0,0,0.2),
+        inset 0 2px 0 rgba(255,255,255,0.5),
+        inset 0 -1px 0 rgba(0,0,0,0.1);
     }
 
     .product-title {
-      font-size: 24px;
-      font-weight: bold;
-      color: #333;
-      margin: 0 0 10px 0;
+      font-size: 26px;
+      font-weight: 700;
+      color: #2c3e50;
+      margin: 0 0 15px 0;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
     }
 
     .product-price {
-      font-size: 28px;
-      font-weight: bold;
-      color: #e74c3c;
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      -webkit-text-fill-color: transparent;
       margin: 0;
+      text-shadow: 0 2px 4px rgba(231,76,60,0.3);
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+
+    .product-price:hover {
+      transform: scale(1.05);
     }
 
     .notification {
       position: fixed;
       top: 80px;
       right: 20px;
-      background-color: #2ecc71;
+      background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
       color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
+      padding: 15px 25px;
+      border-radius: 10px;
       z-index: 1001;
       opacity: 0;
       transform: translateX(100%);
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 25px rgba(46,204,113,0.3);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
     }
 
     .notification.show {
@@ -367,7 +612,7 @@
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
       background-color: white;
       padding: 80px 20px 20px 20px;
-      overflow-y: auto; /* ✅ Just in case content overflows */
+      overflow-y: auto;
     }
 
     .menu-overlay.open {
@@ -408,7 +653,6 @@
       pointer-events: none;
     }
 
-    /* Transition classes for smooth movement */
     .transitioning-to-main {
       transform: translateX(var(--start-x)) translateY(var(--start-y)) scale(var(--start-scale));
       opacity: var(--start-opacity);
@@ -421,20 +665,24 @@
       opacity: var(--end-opacity);
       border-radius: var(--end-radius);
       z-index: 5;
-    } 
+    }
+
     @media (max-width: 1250px) {
       .side-image.left-1,
       .side-image.right-2 {
-          display: none;
-        }
+        display: none;
+      }
+      
+      .discount-page {
+        width: 95vw;
+      }
     }
 
     @media (max-width: 870px) {
       .discount-title {
-        font-size: 36px;
+        font-size: 40px;
         letter-spacing: 2px;
       }
-    
 
       .topbar {
         height: 120px;
@@ -479,18 +727,36 @@
       }
       
       .discount-page {
-        width: 90vw;
+        width: 95vw;
         height: auto;
         flex-direction: column;
-        gap: 20px;
+        gap: 30px;
+        margin: 20px auto;
+        padding: 30px 20px;
       }
       
       .side-image {
         display: none;
       }
       
-      .discount-title {
-        font-size: 30px;
+      .main-imagebox {
+        width: 90%;
+        max-width: 400px;
+        height: 400px;
+      }
+      
+      .product-info {
+        width: 90%;
+        max-width: 400px;
+      }
+      
+      .discount-banner {
+        height: 160px;
+      }
+      
+      .underscore-bar {
+        top: 180px;
+        width: 80vw;
       }
     }
 
@@ -512,106 +778,274 @@
         top: 140px;
       }
       
-      /* Hide arrows on smallest screens */
       .arrow-button {
         display: none;
       }
       
-      /* Make main image area swipeable */
       .main-imagebox {
         touch-action: pan-y;
         user-select: none;
+        height: 350px;
+      }
+      
+      .discount-title {
+        font-size: 32px;
+        letter-spacing: 1px;
+      }
+      
+      .discount-banner {
+        height: 140px;
+      }
+      
+      .product-title {
+        font-size: 22px;
+      }
+      
+      .product-price {
+        font-size: 28px;
+      }
+      
+      .discount-page {
+        margin: 15px auto;
+        padding: 20px 15px;
+        border-radius: 20px;
       }
     }
+
   </style>
 </head>
 <body>
 
-  <div class="topbar">
-    <div class="topbar-section left">
-      <div class="buttons" onclick="toggleMenu()">
-        <img src="icons/menu.png" height="32px" />
-      </div>
-      <h1 style="margin: 0 15px;">Ks kids</h1>
+<!-- Topbar -->
+    <div class="topbar">
+        <div class="topbar-section left">
+            <div class="buttons" onclick="toggleMenu()">
+                <img src="icons\menu.png" height="32px" alt="Menu" />
+            </div>
+            <h1 style="margin: 0 15px;">Ks kids</h1>
+        </div>
+
+        <div class="topbar-section center">
+            <div class="search-bar">
+                <input type="text" placeholder="Search" class="search-input" id="searchInput" />
+                <div class="search" onclick="performSearch()">
+                    <img src="icons\search.png" height="16px" alt="Search" />
+                </div>
+            </div>
+        </div>
+
+        <div class="topbar-section right">
+            <div class="buttons" onclick="showNotification('You have 3 new notifications!')">
+                <img src="icons\notification-bell.png" height="32px" alt="Notifications" />
+            </div>
+            <div class="buttons" style="margin: 0 15px;" onclick="showNotification('Customer service is available 24/7!')">
+                <img src="icons\customer-service.png" height="32px" alt="Customer Service" />
+            </div>
+        </div>
     </div>
 
-    <div class="topbar-section center">
-      <div class="search-bar">
-        <input type="text" placeholder="Search" class="search-input" id="searchInput" />
-        <div class="search" onclick="performSearch()">
-          <img src="icons/search.png" height="16px" />
-        </div>
-      </div>
+    <!-- Menu Overlay -->
+    <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-item" onclick="navigateTo('home')">🏠 Home</div>
+        <div class="menu-item" onclick="navigateTo('products')">🛍️ Products</div>
+        <div class="menu-item" onclick="navigateTo('offers')">🎁 Offers</div>
+        <div class="menu-item" onclick="navigateTo('about')">ℹ️ About Us</div>
+        <div class="menu-item" onclick="navigateTo('contact')">📞 Contact</div>
     </div>
 
-    <div class="topbar-section right">
-      <div class="buttons" onclick="showNotification('You have 3 new notifications!')">
-        <img src="icons/notification-bell.png" height="32px" />
-      </div>
-      <div class="buttons" style="margin: 0 15px;" onclick="showNotification('Customer service is available 24/7!')">
-        <img src="icons/customer-service.png" height="32px" />
-      </div>
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <div class="discount-hero">
+            <div class="discount-banner">
+                <div class="discount-title">¡Descuentos!</div>
+            </div>
+        </div>
+
+        <div class="discount-page">
+            <div class="discount-carousel">
+                <!-- Side Images Container - Now inside discount page -->
+                <div class="side-images-container">
+                    <img src="https://via.placeholder.com/120x160/667eea/ffffff?text=1" class="side-image left-1" alt="Product 1" id="sideImageLeft1" />
+                    <img src="https://via.placeholder.com/120x160/764ba2/ffffff?text=2" class="side-image left-2" alt="Product 2" id="sideImageLeft2" />
+                    <img src="https://via.placeholder.com/120x160/f5576c/ffffff?text=3" class="side-image right-1" alt="Product 3" id="sideImageRight1" />
+                    <img src="https://via.placeholder.com/120x160/4facfe/ffffff?text=4" class="side-image right-2" alt="Product 4" id="sideImageRight2" />
+                </div>
+
+                <!-- Navigation Arrows -->
+                <button class="arrow-button prev" onclick="previousProduct()">
+                    <img src="https://via.placeholder.com/25x25/333333/ffffff?text=←" alt="Previous" />
+                </button>
+
+                <!-- Main Product -->
+                <div class="main-product">
+                    <div class="main-imagebox">
+                        <img src="https://via.placeholder.com/300x400/f093fb/ffffff?text=Bebé+casi+gratis" alt="Bebé casi gratis" class="main-image" id="mainProductImage" />
+                    </div>
+                    <div class="product-info">
+                        <p class="product-title" id="productTitle">Bebé casi gratis</p>
+                        <p class="product-price" id="productPrice">10 €</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Arrows -->
+                <button class="arrow-button next" onclick="nextProduct()">
+                    <img src="https://via.placeholder.com/25x25/333333/ffffff?text=→" alt="Next" />
+                </button>
+            </div>
+        </div>
+
+        <div class="underscore-bar"></div>
+
+        <!-- Products Grid -->
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-box">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&h=300&fit=crop" alt="Body de algodón" />
+                    <div class="price-badge">€12.99</div>
+                    <div class="stock-status in-stock">En stock</div>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-name">Body de Algodón Orgánico</h3>
+                    <p class="product-description">Suave body de algodón 100% orgánico, perfecto para la piel delicada del bebé. Disponible en varios colores pastel.</p>
+                    <div class="product-details">
+                        <span class="product-category">Ropa bebé</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-box">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1503944168057-b53eb95d1807?w=400&h=300&fit=crop" alt="Conjunto niño" />
+                    <div class="price-badge">€24.99</div>
+                    <div class="stock-status in-stock">En stock</div>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-name">Conjunto Camiseta + Pantalón</h3>
+                    <p class="product-description">Conjunto cómodo y resistente para el día a día. Camiseta con estampado divertido y pantalón elástico.</p>
+                    <div class="product-details">
+                        <span class="product-category">Niños/as</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-box">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1544966503-7e31aaeb1e47?w=400&h=300&fit=crop" alt="Paraguas infantil" />
+                    <div class="price-badge">€8.99</div>
+                    <div class="stock-status low-stock">Pocos</div>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-name">Paraguas Infantil Arcoíris</h3>
+                    <p class="product-description">Paraguas colorido con diseño de arcoíris, ligero y fácil de manejar para los más pequeños. Resistente al viento.</p>
+                    <div class="product-details">
+                        <span class="product-category">Paraguas</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-box">
+                <div class="product-image">
+                    <img src="" alt="Sudadera juvenil" />
+                    <div class="price-badge">€32.99</div>
+                    <div class="stock-status in-stock">En stock</div>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-name">Sudadera Con Capucha</h3>
+                    <p class="product-description">Sudadera moderna con capucha, perfecta para adolescentes. Tejido suave y cómodo con diseño urbano actual.</p>
+                    <div class="product-details">
+                        <span class="product-category">Chicos/as</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-box">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop" alt="Peluche oso" />
+                    <div class="price-badge">€19.99</div>
+                    <div class="stock-status in-stock">En stock</div>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-name">Osito de Peluche Suave</h3>
+                    <p class="product-description">Adorable osito de peluche con textura súper suave, ideal para abrazar. Hipoalergénico y lavable en máquina.</p>
+                    <div class="product-details">
+                        <span class="product-category">Juguetes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-box">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1544966503-7cc6881c1d8b?w=400&h=300&fit=crop" alt="Zapatillas infantiles" />
+                    <div class="price-badge">€29.99</div>
+                    <div class="stock-status in-stock">En stock</div>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-name">Zapatillas Deportivas</h3>
+                    <p class="product-description">Zapatillas cómodas y transpirables con velcro, perfectas para correr y jugar. Suela antideslizante.</p>
+                    <div class="product-details">
+                        <span class="product-category">Calzado</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="product-box">
+                <div class="product-image">
+                    <img src="" alt="Bañador infantil" />
+                    <div class="price-badge">€16.99</div>
+                    <div class="stock-status low-stock">Pocos</div>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-name">Bañador + Gorra Verano</h3>
+                    <p class="product-description">Set completo de bañador y gorra a juego con protección UV. Ideal para días de piscina y playa.</p>
+                    <div class="product-details">
+                        <span class="product-category">Verano</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="product-box">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop" alt="Bufanda infantil" />
+                    <div class="price-badge">€14.99</div>
+                    <div class="stock-status out-of-stock">Agotado</div>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-name">Bufanda de Lana Suave</h3>
+                    <p class="product-description">Bufanda tejida en lana suave y cálida, perfecta para el invierno. Disponible en varios colores vibrantes.</p>
+                    <div class="product-details">
+                        <span class="product-category">Invierno</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <!-- Menu Overlay -->
-  <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
-  <div class="menu-overlay" id="menuOverlay">
-    <div class="menu-item" onclick="navigateTo('home')">🏠 Home</div>
-    <div class="menu-item" onclick="navigateTo('products')">🛍️ Products</div>
-    <div class="menu-item" onclick="navigateTo('offers')">🎁 Offers</div>
-    <div class="menu-item" onclick="navigateTo('about')">ℹ️ About Us</div>
-    <div class="menu-item" onclick="navigateTo('contact')">📞 Contact</div>
-  </div>
-
-  <!-- Notification -->
-  <div class="notification" id="notification"></div>
-
-  <div class="main">
-    <div style="margin: 0; padding: 0; height: 300px; width: 100%;">
-      <div class="discount-container">
-        <div class="discount-banner">
-          <div class="discount-title">
-            ¡Descuentos!
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="discount-wrapper">
-      <!-- Side images -->
-      <img src="images/516204036_1213616423896700_999017950145108751_n.jpg" class="side-image left-1" alt="left image" id="sideImageLeft1" />
-      <img src="images/518084926_1213616383896704_1024783052948639362_n.jpg" class="side-image left-2" alt="left image" id="sideImageLeft2" />
-
-      <div class="discount-page">
-        <!-- Arrow left -->
-        <div class="arrow-button" onclick="previousProduct()">
-          <img src="icons/left-arrow.png" alt="arrow" width="25px" />
-        </div>
-        
-        <!-- Main Discount Div -->
-        <div style="flex-direction: column; display: flex; left: 10px; right: 10px;" id="productContainer">
-          <img src="images/516891834_1213616377230038_4997410880746407739_n.jpg" alt="Bebé casi gratis" class="main-imagebox" id="mainProductImage" />
-
-          <div class="product-info">
-            <p class="product-title" id="productTitle">Bebé casi gratis</p>
-            <p class="product-price" id="productPrice">10 €</p>
-          </div>
-        </div>
-        
-        <!-- Arrow right -->
-        <div class="arrow-button" style="margin-left: 4px;" onclick="nextProduct()">
-          <img src="icons/right-arrow.png" alt="arrow" width="25px" />
-        </div>
-      </div>
-
-      <!-- Side images -->
-      <img src="images/518088135_1213616500563359_2083818226617871534_n.jpg" class="side-image right-1" alt="right image" id="sideImageRight1" />
-      <img src="images/518352262_1213616443896698_818288500639219176_n.jpg" class="side-image right-2" alt="right image" id="sideImageRight2" />
-    </div>
-  </div>
-
+    
   <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
     // Product data with actual images
     const products = [
       { 
@@ -910,7 +1344,7 @@
       document.getElementById('mainProductImage').alt = product.name;
       updateSideImages();
     }
-
+    
     // Notification system
     function showNotification(message) {
       const notification = document.getElementById('notification');
