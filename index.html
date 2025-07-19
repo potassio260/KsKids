@@ -1,189 +1,281 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ks Kids Shop</title>
+  <title>Topbar con Navegación por Categorías - Ks Kids Shop</title>
   <style>
     body {
-      height: 3000px;
       margin: 0;
       padding: 0;
       font-family: 'Lexend', sans-serif;
+      height: 2000px; /* For scroll testing */
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      overflow-x: hidden;
     }
 
-    
     .content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
+    .main {
+      margin-top: 120px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      transition: margin-top 0.3s ease;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Discount Banner */
+    .discount-banner {
+      height: 160px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .discount-title {
+      color: white;
+      font-size: 42px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    /* Product Carousel */
+    .product-carousel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 40px auto;
+      position: relative;
+      max-width: 800px;
+      touch-action: pan-y;
+    }
+
+    .carousel-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .side-image {
+      width: 80px;
+      height: 120px;
+      border-radius: 15px;
+      object-fit: cover;
+      opacity: 0.6;
+      transition: all 0.5s ease;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .side-image:hover {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+
+    .main-product {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 20px;
+    }
+
+    .main-imagebox {
+      width: 300px;
+      height: 400px;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .main-image {
+      width: 100%;
+      height: 70%;
+      object-fit: cover;
+      transition: all 0.3s ease;
+    }
+
+    .product-info {
+      background: white;
+      width: 100%;
+      height: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      position: absolute;
+      bottom: 0;
+    }
+
+    .product-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .product-price {
+      font-size: 24px;
+      font-weight: 800;
+      color: #e74c3c;
+    }
+
+    .arrow-btn {
+      background: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .arrow-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    /* Products Grid */
     .products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-        position: relative;
-        top: 250px;
-        padding: 20px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 50px;
     }
 
     .product-box {
-        border-radius: 20px;
-        overflow: hidden;
-        position: relative;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        background: white;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
     .product-box:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
     }
 
     .product-image {
-        width: 100%;
-        height: 200px;
-        overflow: hidden;
-        position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
     }
 
     .product-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s ease;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
     }
 
     .product-box:hover .product-image img {
-        transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     .price-badge {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: rgba(0,0,0,0.8);
-        color: white;
-        padding: 8px 15px;
-        border-radius: 20px;
-        font-weight: bold;
-        font-size: 1.1rem;
-        backdrop-filter: blur(10px);
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 15px;
+      font-weight: bold;
     }
 
+    .stock-status {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .in-stock { background: #2ecc71; color: white; }
+    .low-stock { background: #f39c12; color: white; }
+    .out-of-stock { background: #e74c3c; color: white; }
+
     .product-content {
-        padding: 25px;
-        background: white;
+      padding: 20px;
     }
 
     .product-name {
-        font-size: 1.4rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #2c3e50;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #2c3e50;
     }
 
     .product-description {
-        color: #7f8c8d;
-        font-size: 0.95rem;
-        line-height: 1.4;
-        margin-bottom: 15px;
-    }
-
-    .product-details {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 15px;
+      color: #7f8c8d;
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 12px;
     }
 
     .product-category {
-        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-        color: #2c3e50;
-        padding: 5px 12px;
-        border-radius: 15px;
-        font-size: 0.8rem;
-        font-weight: bold;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      color: #2c3e50;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      display: inline-block;
     }
 
-    .product-box {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      z-index: 1001;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.4s ease;
+      box-shadow: 0 5px 15px rgba(46,204,113,0.3);
     }
 
-    .product-box:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    .notification.show {
+      opacity: 1;
+      transform: translateX(0);
     }
 
-    /* Responsive design */
-    @media (max-width: 768px) {
-        .products-grid {
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        
-        .product-content {
-            padding: 20px;
-        }
-        
-        .product-name {
-            font-size: 1.2rem;
-        }
-        
-        .product-description {
-            font-size: 0.9rem;
-        }
-    }
-
-    /* Stock status */
-    .stock-status {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        padding: 5px 10px;
-        border-radius: 12px;
-        font-size: 0.8rem;
-        font-weight: bold;
-    }
-
-    .in-stock {
-        background: rgba(46, 204, 113, 0.9);
-        color: white;
-    }
-
-    .low-stock {
-        background: rgba(241, 196, 15, 0.9);
-        color: white;
-    }
-
-    .out-of-stock {
-        background: rgba(231, 76, 60, 0.9);
-        color: white;
-    }
-
-    .rating {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        margin-top: 10px;
-    }
-
-    .stars {
-        color: #f39c12;
-    }
-
-    .rating-text {
-        color: #7f8c8d;
-        font-size: 0.9rem;
-    }
-
+    /* TOPBAR CORE STYLING */
     .topbar {
       height: 70px;
       display: flex;
@@ -199,11 +291,113 @@
       transition: height 0.3s ease;
     }
 
+    /* CATEGORY NAVIGATION BAR */
+    .category-nav {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background-color: #f8f9fa;
+      z-index: 999;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      transition: top 0.3s ease;
+    }
+
+    .category-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-nav-container {
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 5px;
+      min-width: 100%;
+    }
+
+    .category-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      font-weight: 500;
+      color: #555;
+      background-color: transparent;
+      white-space: nowrap;
+      flex-shrink: 0;
+      border: 1px solid transparent;
+    }
+
+    .category-item:hover {
+      background-color: #e9ecef;
+      color: #333;
+      transform: translateY(-1px);
+    }
+
+    .category-item.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .category-item.active:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    }
+
+    .category-icon {
+      margin-right: 6px;
+      font-size: 16px;
+    }
+
+    /* SCROLL INDICATORS */
+    .scroll-indicator {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 1001;
+    }
+
+    .scroll-indicator:hover {
+      background: rgba(255,255,255,1);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .scroll-indicator.left {
+      left: 10px;
+    }
+
+    .scroll-indicator.right {
+      right: 10px;
+    }
+
+    /* TOPBAR SECTIONS */
     .topbar-section {
       display: flex;
       align-items: center;
     }
-
+    
     .topbar-section.left {
       margin-left: 5px;
       flex: 0.35;
@@ -223,6 +417,7 @@
       align-items: center;
     }
 
+    /* SEARCH BAR STYLING */
     .search-bar {
       display: flex;
       align-items: center;
@@ -248,6 +443,7 @@
       color: rgba(0, 0, 0, 0.25);
     }
 
+    /* BUTTON STYLING */
     .buttons,
     .search,
     .arrow-button {
@@ -258,330 +454,31 @@
       width: 40px;
       border-radius: 50%;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
     }
 
     .buttons:hover,
     .search:hover,
     .arrow-button:hover {
       background-color: #dfd7d7;
+      transform: scale(1.1);
     }
 
+    /* MAIN CONTENT OFFSET */
     .main {
-      margin-top: 70px;
+      margin-top: 120px; /* Adjusted for both topbar and category nav */
       height: 100%;
       background-color: #f0f0f0;
-      padding: 0px;
+      padding: 20px;
       width: 100%;
       transition: margin-top 0.3s ease;
     }
 
-    .merchandise-img {
-      width: 15vw;
-      height: 15vw;
-      object-fit: contain;
-      border: 1px solid black;
-    }
-
-    /* Enhanced Discount Section */
-    .discount-page {
-      position: relative;
-      z-index: 2;
-      height: 700px;
-      width: min(1000px, 90vw);
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      margin: 40px auto;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-      border-radius: 30px;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: 
-        0 20px 40px rgba(0,0,0,0.1),
-        0 10px 20px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
-
-    .discount-page::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-      animation: pageShimmer 8s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes pageShimmer {
-      0% { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
-      50% { opacity: 0.3; }
-      100% { transform: translateX(100%) skewX(-15deg); opacity: 0; }
-    }
-
-    .discount-deals {
-      width: 450px;
-      max-width: 100%;
-    }
-
-    .discount-container {
-      display: flex;
-      position: relative;
-      height: 120px;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border-radius: 20px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-    }
-
-  /* Discount Banner */
-    .discount-banner {
-        height: 180px;
-        width: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-        margin-bottom: 40px;
-    }
-
-    .discount-title {
-        color: white;
-        font-size: 48px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        z-index: 2;
-        position: relative;
-    }
-
-    .discount-wrapper {
-      position: relative;
-      width: max-content;
-      margin: 0 auto;
-      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
-    }
-
-    .side-image {
-      border-radius: 25px;
-      object-fit: cover;
-      position: absolute;
-      top: 20px;
-      height: 420px;
-      width: 150px;
-      z-index: 1;
-      opacity: 0.7;
-      pointer-events: none;
-      border: 3px solid rgba(255,255,255,0.3);
-      box-shadow: 
-        0 10px 30px rgba(0,0,0,0.2),
-        inset 0 1px 0 rgba(255,255,255,0.3);
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      backdrop-filter: blur(2px);
-    }
-
-    .side-image:hover {
-      opacity: 0.9;
-      transform: translateY(-5px) scale(1.02);
-    }
-
-    .side-image.left-1 {
-      left: -180px;
-      transform: perspective(800px) rotateY(15deg) rotateX(5deg);
-    }
-
-    .side-image.left-2 {
-      left: 45px;
-      transform: perspective(800px) rotateY(8deg) rotateX(2deg);
-    }
-
-    .side-image.right-1 {
-      right: 45px;
-      transform: perspective(800px) rotateY(-8deg) rotateX(2deg);
-    }
-
-    .side-image.right-2 {
-      right: -180px;
-      transform: perspective(800px) rotateY(-15deg) rotateX(5deg);
-    }
-
-    .main-imagebox {
-      height: 500px;
-      width: 360px;
-      display: flex;
-      margin: auto;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-      border-radius: 35px 35px 0 0;
-      border: 3px solid rgba(255,255,255,0.3);
-      background: linear-gradient(135deg, 
-        rgba(255,255,255,0.95) 0%, 
-        rgba(255,255,255,0.9) 100%);
-      backdrop-filter: blur(10px);
-      box-shadow: 
-        0 20px 40px rgba(0,0,0,0.15),
-        inset 0 2px 0 rgba(255,255,255,0.4),
-        inset 0 -1px 0 rgba(0,0,0,0.1);
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .main-imagebox:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 
-        0 30px 60px rgba(0,0,0,0.2),
-        inset 0 2px 0 rgba(255,255,255,0.5),
-        inset 0 -1px 0 rgba(0,0,0,0.1);
-    }
-
-    .main-imagebox::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, 
-        transparent 30%, 
-        rgba(255,255,255,0.1) 50%, 
-        transparent 70%);
-      animation: imageShimmer 6s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes imageShimmer {
-      0% { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
-      50% { opacity: 0.3; }
-      100% { transform: translateX(100%) skewX(-15deg); opacity: 0; }
-    }
-
-    .main-image {
-      max-height: 95%;
-      max-width: 95%;
-      object-fit: cover;
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      position: absolute;
-      border-radius: 15px;
-      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
-    }
-
-    .main-image:hover {
-      transform: scale(1.05);
-      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15));
-    }
-
-    .underscore-bar {
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(150,150,150,0.5) 20%, 
-        rgba(150,150,150,0.8) 50%, 
-        rgba(150,150,150,0.5) 80%, 
-        transparent 100%);
-      width: 70vw;
-      height: 3px;
-      margin: auto;
-      position: relative;
-      top: 250px;
-      border-radius: 2px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    }
-
-    .product-info {
-      width: 320px;
-      background: linear-gradient(135deg, 
-        rgba(255,255,255,0.9) 0%, 
-        rgba(240,240,240,0.9) 100%);
-      height: 120px;
-      border: 3px solid rgba(255,255,255,0.3);
-      backdrop-filter: blur(10px);
-      box-shadow: 
-        0 15px 35px rgba(0,0,0,0.15),
-        inset 0 2px 0 rgba(255,255,255,0.4),
-        inset 0 -1px 0 rgba(0,0,0,0.1);
-      border-radius: 0px 0px 35px 35px;
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-    }
-
-    .product-info::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, 
-        transparent 40%, 
-        rgba(255,255,255,0.1) 50%, 
-        transparent 60%);
-      animation: infoShimmer 8s ease-in-out infinite;
-      pointer-events: none;
-      border-radius: 0px 0px 35px 35px;
-    }
-
-    @keyframes infoShimmer {
-      0% { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
-      50% { opacity: 0.5; }
-      100% { transform: translateX(100%) skewX(-15deg); opacity: 0; }
-    }
-
-    .product-info:hover {
-      transform: translateY(-5px);
-      box-shadow: 
-        0 25px 50px rgba(0,0,0,0.2),
-        inset 0 2px 0 rgba(255,255,255,0.5),
-        inset 0 -1px 0 rgba(0,0,0,0.1);
-    }
-
-    .product-title {
-      font-size: 26px;
-      font-weight: 700;
-      color: #2c3e50;
-      margin: 0 0 15px 0;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-      position: relative;
-      z-index: 1;
-    }
-
-    .product-price {
-      font-size: 32px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-      -webkit-text-fill-color: transparent;
-      margin: 0;
-      text-shadow: 0 2px 4px rgba(231,76,60,0.3);
-      position: relative;
-      z-index: 1;
-      transition: all 0.3s ease;
-    }
-
-    .product-price:hover {
-      transform: scale(1.05);
-    }
-
+    /* NOTIFICATION STYLING */
     .notification {
       position: fixed;
-      top: 80px;
+      top: 130px; /* Adjusted for category nav */
       right: 20px;
       background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
       color: white;
@@ -601,6 +498,7 @@
       transform: translateX(0);
     }
 
+    /* MENU OVERLAY STYLING */
     .menu-overlay {
       position: fixed;
       top: 0;
@@ -611,7 +509,7 @@
       transition: left 0.3s ease;
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
       background-color: white;
-      padding: 80px 20px 20px 20px;
+      padding: 20px 20px 20px 20px; /* Adjusted for category nav */
       overflow-y: auto;
     }
 
@@ -624,12 +522,17 @@
       border-bottom: 1px solid #eee;
       cursor: pointer;
       transition: background-color 0.3s ease;
+      font-family: 'Lexend', sans-serif;
+      font-size: 16px;
+      color: #333;
     }
 
     .menu-item:hover {
       background-color: #f8f8f8;
+      padding-left: 10px;
     }
 
+    /* MENU BACKDROP */
     .menu-backdrop {
       position: fixed;
       top: 0;
@@ -648,45 +551,99 @@
       visibility: visible;
     }
 
+    /* LOADING STATE */
     .loading {
       opacity: 0.5;
       pointer-events: none;
     }
 
-    .transitioning-to-main {
-      transform: translateX(var(--start-x)) translateY(var(--start-y)) scale(var(--start-scale));
-      opacity: var(--start-opacity);
-      border-radius: var(--start-radius);
-      z-index: 10;
+    .discount-banner,
+    .product-carousel,
+    .products-grid {
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .transitioning-from-main {
-      transform: translateX(var(--end-x)) translateY(var(--end-y)) scale(var(--end-scale));
-      opacity: var(--end-opacity);
-      border-radius: var(--end-radius);
-      z-index: 5;
-    }
-
-    @media (max-width: 1250px) {
-      .side-image.left-1,
-      .side-image.right-2 {
+    @media (min-width: 1321px) {
+      .topbar-section.left .buttons {
         display: none;
       }
-      
-      .discount-page {
-        width: 95vw;
-      }
     }
 
+    @media (max-width: 1320px) {
+
+      /* Hide category nav on smaller screens */
+      .category-nav {
+        display: none;
+      }
+
+      /* MAIN CONTENT OFFSET */
+      .main {
+        margin-top: 70px;
+        height: 100%;
+        background-color: #f0f0f0;
+        padding: 20px;
+        width: 100%;
+        transition: margin-top 0.3s ease;
+      }
+      
+    }
+
+    /* RESPONSIVE DESIGN - TABLET/MOBILE */
     @media (max-width: 870px) {
-      .discount-title {
-        font-size: 40px;
-        letter-spacing: 2px;
+
+      .main {
+        margin-top: 120px; /* Back to single topbar height */
+        padding: 15px; /* Slightly less padding on mobile */
+        max-width: 100%;
       }
 
       .topbar {
         height: 120px;
         padding: 10px 0;
+      }
+
+       .discount-title {
+        font-size: 32px;
+      }
+
+      .carousel-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .side-image {
+        display: none;
+      }
+
+      .main-imagebox {
+        width: 280px;
+        height: 350px;
+      }
+
+      .arrow-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+      }
+
+      .arrow-btn.prev {
+        left: 10px;
+      }
+
+      .arrow-btn.next {
+        right: 10px;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      /* Hide category nav on smaller screens */
+      .category-nav {
+        display: none;
       }
 
       .topbar-section.left {
@@ -719,50 +676,27 @@
       }
 
       .main {
-        margin-top: 120px;
+        margin-top: 120px; /* Back to single topbar height */
       }
 
       .notification {
         top: 130px;
       }
-      
-      .discount-page {
-        width: 95vw;
-        height: auto;
-        flex-direction: column;
-        gap: 30px;
-        margin: 20px auto;
-        padding: 30px 20px;
-      }
-      
-      .side-image {
-        display: none;
-      }
-      
-      .main-imagebox {
-        width: 90%;
-        max-width: 400px;
-        height: 400px;
-      }
-      
-      .product-info {
-        width: 90%;
-        max-width: 400px;
-      }
-      
-      .discount-banner {
-        height: 160px;
-      }
-      
-      .underscore-bar {
-        top: 180px;
-        width: 80vw;
+
+      .menu-overlay {
+        padding-top: 120px;
       }
     }
 
+    /* RESPONSIVE DESIGN - MOBILE */
     @media (max-width: 480px) {
       .topbar {
         height: 130px;
+      }
+
+      /* Keep category nav hidden on mobile */
+      .category-nav {
+        display: none;
       }
 
       .search-input {
@@ -776,575 +710,337 @@
 
       .notification {
         top: 140px;
+        right: 10px;
+        left: 10px;
+        transform: translateY(-100%);
       }
-      
+
+      .notification.show {
+        transform: translateY(0);
+      }
+
       .arrow-button {
         display: none;
       }
-      
-      .main-imagebox {
-        touch-action: pan-y;
-        user-select: none;
-        height: 350px;
+
+      .scroll-indicator {
+        width: 25px;
+        height: 25px;
       }
-      
-      .discount-title {
-        font-size: 32px;
-        letter-spacing: 1px;
-      }
-      
-      .discount-banner {
-        height: 140px;
-      }
-      
-      .product-title {
-        font-size: 22px;
-      }
-      
-      .product-price {
-        font-size: 28px;
-      }
-      
-      .discount-page {
-        margin: 15px auto;
-        padding: 20px 15px;
-        border-radius: 20px;
+
+      .menu-overlay {
+        padding-top: 130px;
       }
     }
 
+    /* SIDEBAR TOUCH SUPPORT */
+    .menu-overlay {
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+    }
+
+    /* ADDITIONAL INTERACTIVE EFFECTS */
+    .topbar-section.left h1 {
+      margin: 0 15px;
+      font-size: 24px;
+      color: #333;
+      font-weight: 700;
+      transition: color 0.3s ease;
+    }
+
+    .topbar-section.left h1:hover {
+      color: #667eea;
+    }
+
+    /* SMOOTH SCROLLBAR */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    /* DEMO CONTENT */
+    .demo-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .demo-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .demo-title {
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .demo-text {
+      color: #666;
+      line-height: 1.6;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
 
-<!-- Topbar -->
-    <div class="topbar">
-        <div class="topbar-section left">
-            <div class="buttons" onclick="toggleMenu()">
-                <img src="icons\menu.png" height="32px" alt="Menu" />
-            </div>
-            <h1 style="margin: 0 15px;">Ks kids</h1>
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="topbar-section left">
+        <div class="buttons" onclick="toggleMenu()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
         </div>
+        <h1>Ks kids</h1>
+    </div>
 
-        <div class="topbar-section center">
-            <div class="search-bar">
-                <input type="text" placeholder="Search" class="search-input" id="searchInput" />
-                <div class="search" onclick="performSearch()">
-                    <img src="icons\search.png" height="16px" alt="Search" />
-                </div>
-            </div>
-        </div>
-
-        <div class="topbar-section right">
-            <div class="buttons" onclick="showNotification('You have 3 new notifications!')">
-                <img src="icons\notification-bell.png" height="32px" alt="Notifications" />
-            </div>
-            <div class="buttons" style="margin: 0 15px;" onclick="showNotification('Customer service is available 24/7!')">
-                <img src="icons\customer-service.png" height="32px" alt="Customer Service" />
+    <div class="topbar-section center">
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar..." class="search-input" id="searchInput" />
+            <div class="search" onclick="performSearch()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
             </div>
         </div>
     </div>
 
-    <!-- Menu Overlay -->
-    <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
-    <div class="menu-overlay" id="menuOverlay">
-        <div class="menu-item" onclick="navigateTo('home')">🏠 Home</div>
-        <div class="menu-item" onclick="navigateTo('products')">🛍️ Products</div>
-        <div class="menu-item" onclick="navigateTo('offers')">🎁 Offers</div>
-        <div class="menu-item" onclick="navigateTo('about')">ℹ️ About Us</div>
-        <div class="menu-item" onclick="navigateTo('contact')">📞 Contact</div>
-    </div>
-
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
-
-    <!-- Main Content -->
-    <div class="main">
-      <div class="discount-hero">
-            <div class="discount-banner">
-                <div class="discount-title">¡Descuentos!</div>
-            </div>
+    <div class="topbar-section right">
+        <div class="buttons" onclick="showNotification('¡Tienes 3 notificaciones nuevas!')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            </svg>
         </div>
-
-        <div class="discount-page">
-            <div class="discount-carousel">
-                <!-- Side Images Container - Now inside discount page -->
-                <div class="side-images-container">
-                    <img src="https://via.placeholder.com/120x160/667eea/ffffff?text=1" class="side-image left-1" alt="Product 1" id="sideImageLeft1" />
-                    <img src="https://via.placeholder.com/120x160/764ba2/ffffff?text=2" class="side-image left-2" alt="Product 2" id="sideImageLeft2" />
-                    <img src="https://via.placeholder.com/120x160/f5576c/ffffff?text=3" class="side-image right-1" alt="Product 3" id="sideImageRight1" />
-                    <img src="https://via.placeholder.com/120x160/4facfe/ffffff?text=4" class="side-image right-2" alt="Product 4" id="sideImageRight2" />
-                </div>
-
-                <!-- Navigation Arrows -->
-                <button class="arrow-button prev" onclick="previousProduct()">
-                    <img src="https://via.placeholder.com/25x25/333333/ffffff?text=←" alt="Previous" />
-                </button>
-
-                <!-- Main Product -->
-                <div class="main-product">
-                    <div class="main-imagebox">
-                        <img src="https://via.placeholder.com/300x400/f093fb/ffffff?text=Bebé+casi+gratis" alt="Bebé casi gratis" class="main-image" id="mainProductImage" />
-                    </div>
-                    <div class="product-info">
-                        <p class="product-title" id="productTitle">Bebé casi gratis</p>
-                        <p class="product-price" id="productPrice">10 €</p>
-                    </div>
-                </div>
-
-                <!-- Navigation Arrows -->
-                <button class="arrow-button next" onclick="nextProduct()">
-                    <img src="https://via.placeholder.com/25x25/333333/ffffff?text=→" alt="Next" />
-                </button>
-            </div>
-        </div>
-
-        <div class="underscore-bar"></div>
-
-        <!-- Products Grid -->
-        <div class="products-grid">
-            <!-- Product 1 -->
-            <div class="product-box">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&h=300&fit=crop" alt="Body de algodón" />
-                    <div class="price-badge">€12.99</div>
-                    <div class="stock-status in-stock">En stock</div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">Body de Algodón Orgánico</h3>
-                    <p class="product-description">Suave body de algodón 100% orgánico, perfecto para la piel delicada del bebé. Disponible en varios colores pastel.</p>
-                    <div class="product-details">
-                        <span class="product-category">Ropa bebé</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 2 -->
-            <div class="product-box">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1503944168057-b53eb95d1807?w=400&h=300&fit=crop" alt="Conjunto niño" />
-                    <div class="price-badge">€24.99</div>
-                    <div class="stock-status in-stock">En stock</div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">Conjunto Camiseta + Pantalón</h3>
-                    <p class="product-description">Conjunto cómodo y resistente para el día a día. Camiseta con estampado divertido y pantalón elástico.</p>
-                    <div class="product-details">
-                        <span class="product-category">Niños/as</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 3 -->
-            <div class="product-box">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1544966503-7e31aaeb1e47?w=400&h=300&fit=crop" alt="Paraguas infantil" />
-                    <div class="price-badge">€8.99</div>
-                    <div class="stock-status low-stock">Pocos</div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">Paraguas Infantil Arcoíris</h3>
-                    <p class="product-description">Paraguas colorido con diseño de arcoíris, ligero y fácil de manejar para los más pequeños. Resistente al viento.</p>
-                    <div class="product-details">
-                        <span class="product-category">Paraguas</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 4 -->
-            <div class="product-box">
-                <div class="product-image">
-                    <img src="" alt="Sudadera juvenil" />
-                    <div class="price-badge">€32.99</div>
-                    <div class="stock-status in-stock">En stock</div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">Sudadera Con Capucha</h3>
-                    <p class="product-description">Sudadera moderna con capucha, perfecta para adolescentes. Tejido suave y cómodo con diseño urbano actual.</p>
-                    <div class="product-details">
-                        <span class="product-category">Chicos/as</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 5 -->
-            <div class="product-box">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop" alt="Peluche oso" />
-                    <div class="price-badge">€19.99</div>
-                    <div class="stock-status in-stock">En stock</div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">Osito de Peluche Suave</h3>
-                    <p class="product-description">Adorable osito de peluche con textura súper suave, ideal para abrazar. Hipoalergénico y lavable en máquina.</p>
-                    <div class="product-details">
-                        <span class="product-category">Juguetes</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 6 -->
-            <div class="product-box">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1544966503-7cc6881c1d8b?w=400&h=300&fit=crop" alt="Zapatillas infantiles" />
-                    <div class="price-badge">€29.99</div>
-                    <div class="stock-status in-stock">En stock</div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">Zapatillas Deportivas</h3>
-                    <p class="product-description">Zapatillas cómodas y transpirables con velcro, perfectas para correr y jugar. Suela antideslizante.</p>
-                    <div class="product-details">
-                        <span class="product-category">Calzado</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 7 -->
-            <div class="product-box">
-                <div class="product-image">
-                    <img src="" alt="Bañador infantil" />
-                    <div class="price-badge">€16.99</div>
-                    <div class="stock-status low-stock">Pocos</div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">Bañador + Gorra Verano</h3>
-                    <p class="product-description">Set completo de bañador y gorra a juego con protección UV. Ideal para días de piscina y playa.</p>
-                    <div class="product-details">
-                        <span class="product-category">Verano</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 8 -->
-            <div class="product-box">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop" alt="Bufanda infantil" />
-                    <div class="price-badge">€14.99</div>
-                    <div class="stock-status out-of-stock">Agotado</div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">Bufanda de Lana Suave</h3>
-                    <p class="product-description">Bufanda tejida en lana suave y cálida, perfecta para el invierno. Disponible en varios colores vibrantes.</p>
-                    <div class="product-details">
-                        <span class="product-category">Invierno</span>
-                    </div>
-                </div>
-            </div>
+        <div class="buttons" style="margin: 0 15px;" onclick="showNotification('¡Atención al cliente disponible 24/7!')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
         </div>
     </div>
-    
-  <script>
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+</div>
 
-    // Product data with actual images
-    const products = [
-      { 
-        name: "Bebé casi gratis", 
-        price: "10 €", 
-        image: "images/516891834_1213616377230038_4997410880746407739_n.jpg" 
-      },
-      { 
-        name: "Juguete Educativo", 
-        price: "25 €", 
-        image: "images/518084926_1213616383896704_1024783052948639362_n.jpg" 
-      },
-      { 
-        name: "Peluche Suave", 
-        price: "15 €", 
-        image: "images/518088135_1213616500563359_2083818226617871534_n.jpg" 
-      },
-      { 
-        name: "Bloques de Construcción", 
-        price: "30 €", 
-        image: "images/518352262_1213616443896698_818288500639219176_n.jpg" 
-      },
-      { 
-        name: "Libro Interactivo", 
-        price: "18 €", 
-        image: "images/516204036_1213616423896700_999017950145108751_n.jpg" 
-      }
-    ];
+<!-- CATEGORY NAVIGATION -->
+<div class="category-nav" id="categoryNav">
+    <div class="category-nav-container" id="categoryContainer">
+        <div class="category-item active" onclick="selectCategory(this, 'todos')" data-category="todos">
+            <span class="category-icon">🏠</span>
+            Todos
+        </div>
+        <div class="category-item" onclick="selectCategory(this, 'ropa-bebe')" data-category="ropa-bebe">
+            <span class="category-icon">👶</span>
+            Ropa de bebé
+        </div>
+        <div class="category-item" onclick="selectCategory(this, 'ninos')" data-category="ninos">
+            <span class="category-icon">👧</span>
+            De niños/as
+        </div>
+        <div class="category-item" onclick="selectCategory(this, 'chicos')" data-category="chicos">
+            <span class="category-icon">🧒</span>
+            De chicos/as
+        </div>
+        <div class="category-item" onclick="selectCategory(this, 'paraguas')" data-category="paraguas">
+            <span class="category-icon">☂️</span>
+            Paraguas
+        </div>
+        <div class="category-item" onclick="selectCategory(this, 'juguetes')" data-category="juguetes">
+            <span class="category-icon">🧸</span>
+            Juguetes
+        </div>
+        <div class="category-item" onclick="selectCategory(this, 'calzado')" data-category="calzado">
+            <span class="category-icon">👟</span>
+            Calzado
+        </div>
+        <div class="category-item" onclick="selectCategory(this, 'toallas-gorras-banadores')" data-category="toallas-gorras-banadores">
+            <span class="category-icon">🏖️</span>
+            Toallas/gorras/bañadores
+        </div>
+        <div class="category-item" onclick="selectCategory(this, 'bufandas-batas')" data-category="bufandas-batas">
+            <span class="category-icon">🧣</span>
+            Bufandas/batas
+        </div>
+    </div>
+</div>
 
-    let currentProductIndex = 0;
+<!-- MENU OVERLAY -->
+<div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
+<div class="menu-overlay" id="menuOverlay">
+    <!-- Categories will be populated here on mobile -->
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notification" id="notification"></div>
+
+<!-- Main Content -->
+  <div class="main">
+    <!-- Discount Banner -->
+    <div class="discount-banner">
+      <div class="discount-title">¡Descuentos!</div>
+    </div>
+
+    <!-- Product Carousel -->
+    <div class="product-carousel" id="productCarousel">
+      <button class="arrow-btn prev" onclick="previousProduct()">‹</button>
+      
+      <div class="carousel-container">
+        <img src="images\516204036_1213616423896700_999017950145108751_n.jpg" class="side-image" id="sideLeft" alt="Previous" />
+        
+        <div class="main-product">
+          <div class="main-imagebox" id="mainImageBox">
+            <img src="images\516891834_1213616377230038_4997410880746407739_n.jpg" alt="Producto principal" class="main-image" id="mainImage" />
+            <div class="product-info">
+              <div class="product-title" id="productTitle">Osito de Peluche</div>
+              <div class="product-price" id="productPrice">19,99 €</div>
+            </div>
+          </div>
+        </div>
+        
+        <img src="images\518084926_1213616383896704_1024783052948639362_n.jpg" class="side-image" id="sideRight" alt="Next" />
+      </div>
+
+      <button class="arrow-btn next" onclick="nextProduct()">›</button>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid">
+      <div class="product-box">
+        <div class="product-image">
+          <img src="images\516204036_1213616423896700_999017950145108751_n.jpg" alt="Body de algodón" />
+          <div class="price-badge">€12.99</div>
+          <div class="stock-status in-stock">En stock</div>
+        </div>
+        <div class="product-content">
+          <h3 class="product-name">Body de Algodón Orgánico</h3>
+          <p class="product-description">Suave body de algodón 100% orgánico, perfecto para la piel delicada del bebé.</p>
+          <span class="product-category">Ropa bebé</span>
+        </div>
+      </div>
+
+      <div class="product-box">
+        <div class="product-image">
+          <img src="images\518352262_1213616443896698_818288500639219176_n.jpg" alt="Conjunto niño" />
+          <div class="price-badge">€24.99</div>
+          <div class="stock-status in-stock">En stock</div>
+        </div>
+        <div class="product-content">
+          <h3 class="product-name">Conjunto Camiseta + Pantalón</h3>
+          <p class="product-description">Conjunto cómodo y resistente para el día a día con estampado divertido.</p>
+          <span class="product-category">Niños/as</span>
+        </div>
+      </div>
+
+      <div class="product-box">
+        <div class="product-image">
+          <img src="images\516204036_1213616423896700_999017950145108751_n.jpg" alt="Paraguas infantil" />
+          <div class="price-badge">€8.99</div>
+          <div class="stock-status low-stock">Pocos</div>
+        </div>
+        <div class="product-content">
+          <h3 class="product-name">Paraguas Infantil Arcoíris</h3>
+          <p class="product-description">Paraguas colorido con diseño de arcoíris, ligero y fácil de manejar.</p>
+          <span class="product-category">Accesorios</span>
+        </div>
+      </div>
+
+      <div class="product-box">
+        <div class="product-image">
+          <img src="images\518352262_1213616443896698_818288500639219176_n.jpg" alt="Peluche oso" />
+          <div class="price-badge">€19.99</div>
+          <div class="stock-status in-stock">En stock</div>
+        </div>
+        <div class="product-content">
+          <h3 class="product-name">Osito de Peluche Suave</h3>
+          <p class="product-description">Adorable osito de peluche con textura súper suave, ideal para abrazar.</p>
+          <span class="product-category">Juguetes</span>
+        </div>
+      </div>
+
+      <div class="product-box">
+        <div class="product-image">
+          <img src="images\518352262_1213616443896698_818288500639219176_n.jpg" alt="Zapatillas infantiles" />
+          <div class="price-badge">€29.99</div>
+          <div class="stock-status in-stock">En stock</div>
+        </div>
+        <div class="product-content">
+          <h3 class="product-name">Zapatillas Deportivas</h3>
+          <p class="product-description">Zapatillas cómodas y transpirables con velcro, perfectas para correr.</p>
+          <span class="product-category">Calzado</span>
+        </div>
+      </div>
+
+      <div class="product-box">
+        <div class="product-image">
+          <img src="images\518352262_1213616443896698_818288500639219176_n.jpg" alt="Bufanda infantil" />
+          <div class="price-badge">€14.99</div>
+          <div class="stock-status out-of-stock">Agotado</div>
+        </div>
+        <div class="product-content">
+          <h3 class="product-name">Bufanda de Lana Suave</h3>
+          <p class="product-description">Bufanda tejida en lana suave y cálida, perfecta para el invierno.</p>
+          <span class="product-category">Invierno</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const products = [
+    {
+        name: "Osito de Peluche",
+        price: "19,99 €",
+        image: "images/516204036_1213616423896700_999017950145108751_n.jpg"
+    },
+    {
+        name: "Body de Algodón",
+        price: "12,99 €",
+        image: "images/516891834_1213616377230038_4997410880746407739_n.jpg"
+    },
+    {
+        name: "Conjunto Niño",
+        price: "24,99 €",
+        image: "images/518084926_1213616383896704_1024783052948639362_n.jpg"
+    },
+    {
+        name: "Paraguas Infantil",
+        price: "8,99 €",
+        image: "images/518088135_1213616500563359_2083818226617871534_n.jpg"
+    },
+    {
+        name: "Zapatillas Deportivas",
+        price: "29,99 €",
+        image: "images/518352262_1213616443896698_818288500639219176_n.jpg"
+    }
+];
     let isMenuOpen = false;
+    let currentProductIndex = 0;
     let isTransitioning = false;
 
-    // Touch/swipe handling variables
+    // Touch handling for carousel
     let startX = 0;
     let startY = 0;
-    let startTime = 0;
-    let isSwipeActive = false;
-    const swipeThreshold = 50; // Minimum distance for swipe
-    const swipeTimeout = 300; // Maximum time for swipe
+    let isDragging = false;
 
-    // Menu functionality
-    function toggleMenu() {
-      isMenuOpen = !isMenuOpen;
-      const menuOverlay = document.getElementById('menuOverlay');
-      const menuBackdrop = document.getElementById('menuBackdrop');
-      
-      if (isMenuOpen) {
-        menuOverlay.classList.add('open');
-        menuBackdrop.classList.add('open');
-      } else {
-        menuOverlay.classList.remove('open');
-        menuBackdrop.classList.remove('open');
-      }
-    }
-
-    // Navigation
-    function navigateTo(section) {
-      showNotification(`Navigating to ${section}...`);
-      toggleMenu();
-      
-      // Add loading state
-      document.body.classList.add('loading');
-      setTimeout(() => {
-        document.body.classList.remove('loading');
-      }, 1000);
-    }
-
-    // Search functionality
-    function performSearch() {
-      const searchInput = document.getElementById('searchInput');
-      const query = searchInput.value.trim();
-      
-      if (query) {
-        showNotification(`Searching for: "${query}"`);
-        searchInput.value = '';
-        
-        // Simulate search loading
-        const searchButton = document.querySelector('.search');
-        searchButton.style.opacity = '0.5';
-        setTimeout(() => {
-          searchButton.style.opacity = '1';
-        }, 1000);
-      } else {
-        showNotification('Please enter a search term');
-      }
-    }
-
-    // Search on Enter key
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        performSearch();
-      }
-    });
-
-    // Enhanced product carousel functionality with smooth transitions
-    function updateProduct(direction = 'next') {
-      if (isTransitioning) return;
-      isTransitioning = true;
-
-      const product = products[currentProductIndex];
-      const mainImage = document.getElementById('mainProductImage');
-      const productInfo = document.querySelector('.product-info');
-      
-      // Get the source image element based on direction
-      let sourceImage;
-      if (direction === 'next') {
-        sourceImage = document.getElementById('sideImageRight1');
-      } else {
-        sourceImage = document.getElementById('sideImageLeft2');
-      }
-
-      // Create a clone of the source image for the transition
-      const transitionImage = sourceImage.cloneNode(true);
-      transitionImage.id = 'transitionImage';
-      transitionImage.style.position = 'absolute';
-      transitionImage.style.zIndex = '10';
-      transitionImage.style.pointerEvents = 'none';
-      
-      // Get positions for the transition
-      const sourceRect = sourceImage.getBoundingClientRect();
-      const mainRect = mainImage.getBoundingClientRect();
-      const containerRect = document.querySelector('.discount-wrapper').getBoundingClientRect();
-      
-      // Calculate relative positions
-      const startX = sourceRect.left - containerRect.left - (mainRect.width / 2) + (sourceRect.width / 2);
-      const startY = sourceRect.top - containerRect.top - (mainRect.height / 2) + (sourceRect.height / 2);
-      const startScale = sourceRect.width / mainRect.width;
-      
-      // Set initial position for transition image
-      transitionImage.style.left = '50%';
-      transitionImage.style.top = '50%';
-      transitionImage.style.transform = `translate(-50%, -50%) translateX(${startX}px) translateY(${startY}px) scale(${startScale})`;
-      transitionImage.style.borderRadius = '60px';
-      transitionImage.style.opacity = '0.8';
-      transitionImage.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-      
-      // Add transition image to the main image container
-      document.querySelector('.main-imagebox').appendChild(transitionImage);
-      
-      // Hide the current main image
-      mainImage.style.opacity = '0';
-      mainImage.style.transform = 'scale(0.95)';
-      
-      // Animate the transition image to main position
-      setTimeout(() => {
-        transitionImage.style.transform = 'translate(-50%, -50%) translateX(0px) translateY(0px) scale(1)';
-        transitionImage.style.borderRadius = '30px 30px 0 0';
-        transitionImage.style.opacity = '1';
-        
-        // Update product info with slide effect
-        productInfo.style.transform = 'translateY(20px)';
-        productInfo.style.opacity = '0.7';
-      }, 50);
-      
-      // Update all side images positions
-      updateSideImages();
-      
-      // After transition completes, update the actual main image
-      setTimeout(() => {
-        mainImage.src = product.image;
-        mainImage.alt = product.name;
-        mainImage.style.opacity = '1';
-        mainImage.style.transform = 'scale(1)';
-        
-        // Update product info
-        document.getElementById('productTitle').textContent = product.name;
-        document.getElementById('productPrice').textContent = product.price;
-        
-        productInfo.style.transform = 'translateY(0)';
-        productInfo.style.opacity = '1';
-        
-        // Remove transition image
-        if (transitionImage.parentNode) {
-          transitionImage.parentNode.removeChild(transitionImage);
-        }
-        
-        isTransitioning = false;
-      }, 600);
-    }
-
-    function updateSideImages() {
-      const leftImage1 = document.getElementById('sideImageLeft1');
-      const leftImage2 = document.getElementById('sideImageLeft2');
-      const rightImage1 = document.getElementById('sideImageRight1');
-      const rightImage2 = document.getElementById('sideImageRight2');
-      
-      // Calculate indices for surrounding images
-      const prevIndex = (currentProductIndex - 1 + products.length) % products.length;
-      const nextIndex = (currentProductIndex + 1) % products.length;
-      const prev2Index = (currentProductIndex - 2 + products.length) % products.length;
-      const next2Index = (currentProductIndex + 2) % products.length;
-      
-      // Add subtle animation to side images
-      const sideImages = [leftImage1, leftImage2, rightImage1, rightImage2];
-      sideImages.forEach(img => {
-        img.style.transform = 'scale(0.95)';
-        img.style.opacity = '0.5';
-      });
-      
-      setTimeout(() => {
-        // Update left side images (previous products)
-        leftImage1.src = products[prev2Index].image;
-        leftImage1.alt = products[prev2Index].name;
-        leftImage2.src = products[prevIndex].image;
-        leftImage2.alt = products[prevIndex].name;
-        
-        // Update right side images (next products)
-        rightImage1.src = products[nextIndex].image;
-        rightImage1.alt = products[nextIndex].name;
-        rightImage2.src = products[next2Index].image;
-        rightImage2.alt = products[next2Index].name;
-        
-        // Restore side images
-        sideImages.forEach(img => {
-          img.style.transform = 'scale(1)';
-          img.style.opacity = '0.8';
-        });
-      }, 300);
-    }
-
-    function nextProduct() {
-      if (isTransitioning) return;
-      currentProductIndex = (currentProductIndex + 1) % products.length;
-      updateProduct('next');
-      showNotification('Next product');
-    }
-
-    function previousProduct() {
-      if (isTransitioning) return;
-      currentProductIndex = (currentProductIndex - 1 + products.length) % products.length;
-      updateProduct('previous');
-      showNotification('Previous product');
-    }
-
-    // Touch/Swipe event handlers
-    function handleTouchStart(e) {
-      if (isTransitioning) return;
-      
-      const touch = e.touches[0];
-      startX = touch.clientX;
-      startY = touch.clientY;
-      startTime = Date.now();
-      isSwipeActive = true;
-      
-    }
-
-    function handleTouchMove(e) {
-      if (!isSwipeActive || isTransitioning) return;
-      
-      const touch = e.touches[0];
-      const deltaX = touch.clientX - startX;
-      const deltaY = touch.clientY - startY;
-      
-      // Only prevent default if it's clearly a horizontal swipe
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
-        e.preventDefault();
-      }
-    }
-
-    function handleTouchEnd(e) {
-      if (!isSwipeActive || isTransitioning) return;
-      
-      const touch = e.changedTouches[0];
-      const endX = touch.clientX;
-      const endY = touch.clientY;
-      const endTime = Date.now();
-      
-      const deltaX = endX - startX;
-      const deltaY = endY - startY;
-      const deltaTime = endTime - startTime;
-      
-      // Check if it's a valid swipe
-      if (deltaTime < swipeTimeout && Math.abs(deltaX) > swipeThreshold) {
-        // Ensure it's more horizontal than vertical
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-          if (deltaX > 0) {
-            // Swipe right - go to previous product
-            previousProduct();
-          } else {
-            // Swipe left - go to next product  
-            nextProduct();
-          }
-        }
-      }
-      
-      isSwipeActive = false;
-    }
-
-    // Initial setup without transition
-    function initializeProduct() {
-      const product = products[currentProductIndex];
-      document.getElementById('productTitle').textContent = product.name;
-      document.getElementById('productPrice').textContent = product.price;
-      document.getElementById('mainProductImage').src = product.image;
-      document.getElementById('mainProductImage').alt = product.name;
-      updateSideImages();
-    }
-    
     // Notification system
     function showNotification(message) {
       const notification = document.getElementById('notification');
@@ -1356,123 +1052,456 @@
       }, 3000);
     }
 
-    // Initialize touch events for swipe functionality
-    function initializeTouchEvents() {
-      const productContainer = document.getElementById('productContainer');
+    // Product carousel functionality
+    function updateProduct() {
+      if (isTransitioning) return;
+      isTransitioning = true;
+
+      const product = products[currentProductIndex];
+      const prevIndex = (currentProductIndex - 1 + products.length) % products.length;
+      const nextIndex = (currentProductIndex + 1) % products.length;
+
+      // Update main product with smooth transition
+      const mainImage = document.getElementById('mainImage');
+      const productTitle = document.getElementById('productTitle');
+      const productPrice = document.getElementById('productPrice');
+      const sideLeft = document.getElementById('sideLeft');
+      const sideRight = document.getElementById('sideRight');
+
+      // Fade out
+      mainImage.style.opacity = '0';
       
-      // Add touch event listeners
-      productContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
-      productContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
-      productContainer.addEventListener('touchend', handleTouchEnd, { passive: false });
-      
-      // Also add to the main image for better coverage
-      const mainImage = document.getElementById('mainProductImage');
-      mainImage.addEventListener('touchstart', handleTouchStart, { passive: false });
-      mainImage.addEventListener('touchmove', handleTouchMove, { passive: false });
-      mainImage.addEventListener('touchend', handleTouchEnd, { passive: false });
+      setTimeout(() => {
+        // Update content
+        mainImage.src = product.image;
+        mainImage.alt = product.name;
+        productTitle.textContent = product.name;
+        productPrice.textContent = product.price;
+        
+        // Update side images
+        sideLeft.src = products[prevIndex].image.replace('300&h=400', '120&h=160');
+        sideRight.src = products[nextIndex].image.replace('300&h=400', '120&h=160');
+        
+        // Fade in
+        setTimeout(() => {
+        mainImage.style.opacity = '1';
+      }, 50);
+        isTransitioning = false;
+      }, 300);
     }
 
-    
-    // Mobile sidebar closing support
-    let sidebarTouchStartX = 0;
-    let sidebarTouchStartY = 0;
-    let isSidebarSwipeActive = false;
-
-    // Touch handlers for sidebar
-    function handleSidebarTouchStart(e) {
-      const touch = e.touches[0];
-      sidebarTouchStartX = touch.clientX;
-      sidebarTouchStartY = touch.clientY;
-      isSidebarSwipeActive = true;
+    function nextProduct() {
+      if (isTransitioning) return;
+      currentProductIndex = (currentProductIndex + 1) % products.length;
+      updateProduct();
     }
 
-    function handleSidebarTouchMove(e) {
-      if (!isSidebarSwipeActive || !isMenuOpen) return;
+    function previousProduct() {
+      if (isTransitioning) return;
+      currentProductIndex = (currentProductIndex - 1 + products.length) % products.length;
+      updateProduct();
+    }
+
+    // Touch events for carousel swipe
+    function initializeSwipe() {
+      const carousel = document.getElementById('productCarousel');
+      
+      carousel.addEventListener('touchstart', handleTouchStart, { passive: true });
+      carousel.addEventListener('touchmove', handleTouchMove, { passive: false });
+      carousel.addEventListener('touchend', handleTouchEnd, { passive: true });
+    }
+
+    function handleTouchStart(e) {
+      const touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+      isDragging = true;
+    }
+
+    function handleTouchMove(e) {
+      if (!isDragging) return;
       
       const touch = e.touches[0];
-      const deltaX = touch.clientX - sidebarTouchStartX;
-      const deltaY = Math.abs(touch.clientY - sidebarTouchStartY);
+      const deltaX = touch.clientX - startX;
+      const deltaY = Math.abs(touch.clientY - startY);
       
-      // If swiping left and movement is more horizontal than vertical
-      if (deltaX < -30 && deltaY < 50) {
-        e.preventDefault(); // Prevent scrolling
+      // Prevent scrolling if horizontal swipe
+      if (Math.abs(deltaX) > deltaY && Math.abs(deltaX) > 20) {
+        e.preventDefault();
       }
     }
 
-    function handleSidebarTouchEnd(e) {
-      if (!isSidebarSwipeActive || !isMenuOpen) return;
+    function handleTouchEnd(e) {
+      if (!isDragging) return;
       
       const touch = e.changedTouches[0];
-      const deltaX = touch.clientX - sidebarTouchStartX;
-      const deltaY = Math.abs(touch.clientY - sidebarTouchStartY);
+      const deltaX = touch.clientX - startX;
+      const deltaY = Math.abs(touch.clientY - startY);
       
-      // Swipe left to close (horizontal swipe of at least 50px)
-      if (deltaX < -50 && deltaY < 100) {
-        toggleMenu();
+      // Check if it's a horizontal swipe
+      if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > deltaY) {
+        if (deltaX > 0) {
+          previousProduct();
+        } else {
+          nextProduct();
+        }
       }
       
-      isSidebarSwipeActive = false;
+      isDragging = false;
     }
 
-    // Initialize sidebar touch events
-    function initializeSidebarTouchEvents() {
-      const menuOverlay = document.getElementById('menuOverlay');
-      const menuBackdrop = document.getElementById('menuBackdrop');
-      
-      menuOverlay.addEventListener('touchstart', handleSidebarTouchStart, { passive: false });
-      menuOverlay.addEventListener('touchmove', handleSidebarTouchMove, { passive: false });
-      menuOverlay.addEventListener('touchend', handleSidebarTouchEnd, { passive: false });
-      
-      // Enhanced backdrop touch support
-      menuBackdrop.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-      }, { passive: false });
-      
-      menuBackdrop.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        if (isMenuOpen) {
-          toggleMenu();
+    // Auto-rotate carousel
+    function startAutoRotate() {
+      setInterval(() => {
+        if (!isTransitioning && !isDragging) {
+          nextProduct();
         }
-      }, { passive: false });
+      }, 5000);
+    }
+
+    // Click handlers for side images
+    function initializeSideImageClicks() {
+      const sideLeft = document.getElementById('sideLeft');
+      const sideRight = document.getElementById('sideRight');
+      
+      sideLeft.addEventListener('click', previousProduct);
+      sideRight.addEventListener('click', nextProduct);
+    }
+
+    // Product box click handlers
+    function initializeProductClicks() {
+      const productBoxes = document.querySelectorAll('.product-box');
+      productBoxes.forEach((box, index) => {
+        box.addEventListener('click', () => {
+          const productName = box.querySelector('.product-name').textContent;
+          showNotification(`Ver detalles de: ${productName}`);
+        });
+      });
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      // Adjust carousel for orientation changes
+      if (window.innerWidth <= 768) {
+        const sideImages = document.querySelectorAll('.side-image');
+        sideImages.forEach(img => img.style.display = 'none');
+      } else {
+        const sideImages = document.querySelectorAll('.side-image');
+        sideImages.forEach(img => img.style.display = 'block');
+      }
+    });
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      updateProduct();
+      initializeSwipe();
+      initializeSideImageClicks();
+      initializeProductClicks();
+      startAutoRotate();
+      
+      // Add loading animation
+      document.body.style.opacity = '0';
+      setTimeout(() => {
+        document.body.style.transition = 'opacity 0.5s ease';
+        document.body.style.opacity = '1';
+      }, 100);
+    });
+
+    // Categories data in Spanish
+    const categories = [
+        { id: 'todos', icon: '🏠', name: 'Todos' },
+        { id: 'ropa-bebe', icon: '👶', name: 'Ropa de bebé' },
+        { id: 'ninos', icon: '👧', name: 'De niños/as' },
+        { id: 'chicos', icon: '🧒', name: 'De chicos/as' },
+        { id: 'paraguas', icon: '☂️', name: 'Paraguas' },
+        { id: 'juguetes', icon: '🧸', name: 'Juguetes' },
+        { id: 'calzado', icon: '👟', name: 'Calzado' },
+        { id: 'toallas-gorras-banadores', icon: '🏖️', name: 'Toallas/gorras/bañadores' },
+        { id: 'bufandas-batas', icon: '🧣', name: 'Bufandas/batas' }
+    ];
+
+    // Check if we should show categories in menu (mobile view)
+    function shouldShowCategoriesInMenu() {
+        return window.innerWidth <= 1320;
+    }
+    // Populate menu with categories on mobile
+    function populateMenu() {
+        const menuOverlay = document.getElementById('menuOverlay');
+        
+        if (shouldShowCategoriesInMenu()) {
+            // Clear existing content and add categories
+            menuOverlay.innerHTML = '';
+            
+            categories.forEach(category => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                menuItem.innerHTML = `${category.icon} ${category.name}`;
+                menuItem.onclick = () => {
+                    selectCategoryFromMenu(category.id, category.name);
+                };
+                menuOverlay.appendChild(menuItem);
+            });
+        } else {
+            // On desktop, menu is empty as requested
+            menuOverlay.innerHTML = '';
+        }
+    }
+
+    // Handle category selection from menu
+    function selectCategoryFromMenu(categoryId, categoryName) {
+        // Update desktop category if visible
+        if (!shouldShowCategoriesInMenu()) {
+            const categoryElements = document.querySelectorAll('.category-item');
+            categoryElements.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-category') === categoryId) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        
+        showNotification(`Selected category: ${categoryName}`);
+        toggleMenu();
+    }
+
+    // Menu functionality
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuBackdrop = document.getElementById('menuBackdrop');
+        
+        // Populate menu content based on screen size
+        populateMenu();
+        
+        if (isMenuOpen) {
+            menuOverlay.classList.add('open');
+            menuBackdrop.classList.add('open');
+        } else {
+            menuOverlay.classList.remove('open');
+            menuBackdrop.classList.remove('open');
+        }
+    }
+
+    // Category selection
+    function selectCategory(element, categoryId) {
+        // Remove active class from all categories
+        const allCategories = document.querySelectorAll('.category-item');
+        allCategories.forEach(item => item.classList.remove('active'));
+        
+        // Add active class to clicked category
+        element.classList.add('active');
+        
+        // Show notification with selected category
+        const categoryName = element.textContent.trim();
+        showNotification(`Selected category: ${categoryName}`);
+        
+        // Scroll the selected category into view
+        element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center'
+        });
+    }
+
+    // Category scrolling functionality
+    function scrollCategories(direction) {
+        const container = document.getElementById('categoryContainer');
+        const scrollAmount = 200;
+        
+        if (direction === 1) {
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        } else {
+            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        }
+        
+        // Update scroll indicators
+        setTimeout(updateScrollIndicators, 300);
+    }
+
+    // Update scroll indicators visibility
+    function updateScrollIndicators() {
+        const container = document.getElementById('categoryContainer');
+        const leftIndicator = document.getElementById('scrollLeft');
+        const rightIndicator = document.getElementById('scrollRight');
+        
+        if (container.scrollLeft <= 10) {
+            leftIndicator.style.opacity = '0.3';
+            leftIndicator.style.pointerEvents = 'none';
+        } else {
+            leftIndicator.style.opacity = '1';
+            leftIndicator.style.pointerEvents = 'auto';
+        }
+        
+        if (container.scrollLeft >= container.scrollWidth - container.clientWidth - 10) {
+            rightIndicator.style.opacity = '0.3';
+            rightIndicator.style.pointerEvents = 'none';
+        } else {
+            rightIndicator.style.opacity = '1';
+            rightIndicator.style.pointerEvents = 'auto';
+        }
+    }
+
+    // Navigation
+    function navigateTo(section) {
+        showNotification(`Navigating to ${section}...`);
+        toggleMenu();
+        
+        // Add loading state
+        document.body.classList.add('loading');
+        setTimeout(() => {
+            document.body.classList.remove('loading');
+        }, 1000);
+    }
+
+    // Search functionality
+    function performSearch() {
+        const searchInput = document.getElementById('searchInput');
+        const query = searchInput.value.trim();
+        
+        if (query) {
+            showNotification(`Searching for: "${query}"`);
+            searchInput.value = '';
+            
+            // Simulate search loading
+            const searchButton = document.querySelector('.search');
+            searchButton.style.opacity = '0.5';
+            setTimeout(() => {
+                searchButton.style.opacity = '1';
+            }, 1000);
+        } else {
+            showNotification('Please enter a search term');
+        }
+    }
+
+    // Search on Enter key
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
+    });
+
+    // Notification system
+    function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
     }
 
     // Close menu when clicking outside
     document.addEventListener('click', function(e) {
-      if (isMenuOpen && !e.target.closest('.menu-overlay') && !e.target.closest('.buttons')) {
-        toggleMenu();
-      }
+        if (isMenuOpen && !e.target.closest('.menu-overlay') && !e.target.closest('.buttons')) {
+            toggleMenu();
+        }
     });
 
-    // Add smooth transitions to buttons
-    document.querySelectorAll('.buttons, .search, .arrow-button').forEach(button => {
-      button.style.transition = 'all 0.3s ease';
-      
-      button.addEventListener('mouseenter', function() {
-        this.style.transform = 'scale(1.1)';
-      });
-      
-      button.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1)';
-      });
-    });
-
-    // Add keyboard navigation
+    // Keyboard navigation
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'ArrowRight') {
-        nextProduct();
-      } else if (e.key === 'ArrowLeft') {
-        previousProduct();
-      } else if (e.key === 'Escape' && isMenuOpen) {
-        toggleMenu();
-      }
+        if (e.key === 'Escape' && isMenuOpen) {
+            toggleMenu();
+        }
     });
 
-    // Initialize everything
-    initializeProduct();
-    initializeTouchEvents();
-    initializeSidebarTouchEvents();
-    showNotification('Welcome to Ks Kids! 🎉');
-  </script>
+    // Mobile sidebar touch support
+    let sidebarTouchStartX = 0;
+    let sidebarTouchStartY = 0;
+    let isSidebarSwipeActive = false;
+
+    function handleSidebarTouchStart(e) {
+        const touch = e.touches[0];
+        sidebarTouchStartX = touch.clientX;
+        sidebarTouchStartY = touch.clientY;
+        isSidebarSwipeActive = true;
+    }
+
+    function handleSidebarTouchMove(e) {
+        if (!isSidebarSwipeActive || !isMenuOpen) return;
+        
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - sidebarTouchStartX;
+        const deltaY = Math.abs(touch.clientY - sidebarTouchStartY);
+        
+        if (deltaX < -30 && deltaY < 50) {
+            e.preventDefault();
+        }
+    }
+
+    function handleSidebarTouchEnd(e) {
+        if (!isSidebarSwipeActive || !isMenuOpen) return;
+        
+        const touch = e.changedTouches[0];
+        const deltaX = touch.clientX - sidebarTouchStartX;
+        const deltaY = Math.abs(touch.clientY - sidebarTouchStartY);
+        
+        if (deltaX < -50 && deltaY < 100) {
+            toggleMenu();
+        }
+        
+        isSidebarSwipeActive = false;
+    }
+
+    // Initialize sidebar touch events
+    const menuOverlay = document.getElementById('menuOverlay');
+    const menuBackdrop = document.getElementById('menuBackdrop');
+    
+    menuOverlay.addEventListener('touchstart', handleSidebarTouchStart, { passive: false });
+    menuOverlay.addEventListener('touchmove', handleSidebarTouchMove, { passive: false });
+    menuOverlay.addEventListener('touchend', handleSidebarTouchEnd, { passive: false });
+    
+    menuBackdrop.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+    }, { passive: false });
+    
+    menuBackdrop.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        if (isMenuOpen) {
+            toggleMenu();
+        }
+    }, { passive: false });
+
+    // Category navigation touch support
+    let categoryTouchStartX = 0;
+    let isCategorySwipeActive = false;
+
+    document.getElementById('categoryContainer').addEventListener('touchstart', function(e) {
+        const touch = e.touches[0];
+        categoryTouchStartX = touch.clientX;
+        isCategorySwipeActive = true;
+    }, { passive: false });
+
+    document.getElementById('categoryContainer').addEventListener('touchmove', function(e) {
+        if (!isCategorySwipeActive) return;
+        // Allow native scrolling behavior
+    }, { passive: true });
+
+    document.getElementById('categoryContainer').addEventListener('touchend', function(e) {
+        isCategorySwipeActive = false;
+        setTimeout(updateScrollIndicators, 100);
+    }, { passive: true });
+
+    // Initialize scroll indicators on load
+    window.addEventListener('load', function() {
+        updateScrollIndicators();
+        
+        // Welcome message
+        setTimeout(() => {
+            showNotification('Enhanced topbar with categories ready! 🎉');
+        }, 500);
+    });
+
+    // Handle container scroll for indicator updates
+    document.getElementById('categoryContainer').addEventListener('scroll', function() {
+        updateScrollIndicators();
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        setTimeout(updateScrollIndicators, 100);
+    });
+</script>
 
 </body>
 </html>
