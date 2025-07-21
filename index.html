@@ -1,803 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Topbar con Navegación por Categorías - Ks Kids Shop</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Lexend', sans-serif;
-      height: 2000px; /* For scroll testing */
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      overflow-x: hidden;
-    }
-
-    .content {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .main {
-      margin-top: 120px;
-      padding: 20px;
-      background-color: #f0f0f0;
-      transition: margin-top 0.3s ease;
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    /* Discount Banner */
-    .discount-banner {
-      height: 160px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 20px;
-      margin-bottom: 30px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .discount-title {
-      color: white;
-      font-size: 42px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }
-
-    /* Product Carousel */
-    .product-carousel {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 40px auto;
-      position: relative;
-      max-width: 800px;
-      touch-action: pan-y;
-    }
-
-    .carousel-container {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      width: 100%;
-      justify-content: center;
-    }
-
-    .side-image {
-      width: 80px;
-      height: 120px;
-      border-radius: 15px;
-      object-fit: cover;
-      opacity: 0.6;
-      transition: all 0.5s ease;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .side-image:hover {
-      opacity: 0.8;
-      transform: scale(1.05);
-    }
-
-    .main-product {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 0 20px;
-    }
-
-    .main-imagebox {
-      width: 300px;
-      height: 400px;
-      border-radius: 25px;
-      overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-      position: relative;
-      cursor: pointer;
-    }
-
-    .main-image {
-      width: 100%;
-      height: 70%;
-      object-fit: cover;
-      transition: all 0.3s ease;
-    }
-
-    .product-info {
-      background: white;
-      width: 100%;
-      height: 30%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-      position: absolute;
-      bottom: 0;
-    }
-
-    .product-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #2c3e50;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-
-    .product-price {
-      font-size: 24px;
-      font-weight: 800;
-      color: #e74c3c;
-    }
-
-    .arrow-btn {
-      background: white;
-      border: none;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-      font-size: 20px;
-      color: #333;
-    }
-
-    .arrow-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
-
-    /* Products Grid */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      margin-top: 50px;
-    }
-
-    .product-box {
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .product-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    }
-
-    .product-image {
-      width: 100%;
-      height: 200px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    .product-box:hover .product-image img {
-      transform: scale(1.05);
-    }
-
-    .price-badge {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: rgba(0,0,0,0.8);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 15px;
-      font-weight: bold;
-    }
-
-    .stock-status {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      padding: 6px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .in-stock { background: #2ecc71; color: white; }
-    .low-stock { background: #f39c12; color: white; }
-    .out-of-stock { background: #e74c3c; color: white; }
-
-    .product-content {
-      padding: 20px;
-    }
-
-    .product-name {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 8px;
-      color: #2c3e50;
-    }
-
-    .product-description {
-      color: #7f8c8d;
-      font-size: 14px;
-      line-height: 1.4;
-      margin-bottom: 12px;
-    }
-
-    .product-category {
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-      color: #2c3e50;
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: bold;
-      display: inline-block;
-    }
-
-    /* Notification */
-    .notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 10px;
-      z-index: 1001;
-      opacity: 0;
-      transform: translateX(100%);
-      transition: all 0.4s ease;
-      box-shadow: 0 5px 15px rgba(46,204,113,0.3);
-    }
-
-    .notification.show {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    /* TOPBAR CORE STYLING */
-    .topbar {
-      height: 70px;
-      display: flex;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background-color: #ffffff;
-      z-index: 1000;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      flex-wrap: wrap;
-      transition: height 0.3s ease;
-    }
-
-    /* CATEGORY NAVIGATION BAR */
-    .category-nav {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      position: fixed;
-      top: 70px;
-      left: 0;
-      right: 0;
-      background-color: #f8f9fa;
-      z-index: 999;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      overflow-x: auto;
-      overflow-y: hidden;
-      white-space: nowrap;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      transition: top 0.3s ease;
-    }
-
-    .category-nav::-webkit-scrollbar {
-      display: none;
-    }
-
-    .category-nav-container {
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      gap: 5px;
-      min-width: 100%;
-    }
-
-    .category-item {
-      display: flex;
-      align-items: center;
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 14px;
-      font-weight: 500;
-      color: #555;
-      background-color: transparent;
-      white-space: nowrap;
-      flex-shrink: 0;
-      border: 1px solid transparent;
-    }
-
-    .category-item:hover {
-      background-color: #e9ecef;
-      color: #333;
-      transform: translateY(-1px);
-    }
-
-    .category-item.active {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    }
-
-    .category-item.active:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
-    }
-
-    .category-icon {
-      margin-right: 6px;
-      font-size: 16px;
-    }
-
-    /* SCROLL INDICATORS */
-    .scroll-indicator {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 30px;
-      height: 30px;
-      background: rgba(255,255,255,0.9);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      z-index: 1001;
-    }
-
-    .scroll-indicator:hover {
-      background: rgba(255,255,255,1);
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    .scroll-indicator.left {
-      left: 10px;
-    }
-
-    .scroll-indicator.right {
-      right: 10px;
-    }
-
-    /* TOPBAR SECTIONS */
-    .topbar-section {
-      display: flex;
-      align-items: center;
-    }
-    
-    .topbar-section.left {
-      margin-left: 5px;
-      flex: 0.35;
-    }
-
-    .topbar-section.center {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      order: 2;
-    }
-
-    .topbar-section.right {
-      position: absolute;
-      right: 5px;
-      display: flex;
-      align-items: center;
-    }
-
-    /* SEARCH BAR STYLING */
-    .search-bar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-      border-radius: 28px;
-      background: #f6f6f6;
-      height: 23px;
-    }
-
-    .search-input {
-      font-size: 17px;
-      font-family: 'Lexend', sans-serif;
-      color: #333;
-      width: 32vw;
-      margin-left: 10px;
-      outline: none;
-      border: none;
-      background: transparent;
-    }
-
-    .search-input::placeholder {
-      color: rgba(0, 0, 0, 0.25);
-    }
-
-    /* BUTTON STYLING */
-    .buttons,
-    .search,
-    .arrow-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-    }
-
-    .buttons:hover,
-    .search:hover,
-    .arrow-button:hover {
-      background-color: #dfd7d7;
-      transform: scale(1.1);
-    }
-
-    /* MAIN CONTENT OFFSET */
-    .main {
-      margin-top: 120px; /* Adjusted for both topbar and category nav */
-      height: 100%;
-      background-color: #f0f0f0;
-      padding: 20px;
-      width: 100%;
-      transition: margin-top 0.3s ease;
-    }
-
-    /* NOTIFICATION STYLING */
-    .notification {
-      position: fixed;
-      top: 130px; /* Adjusted for category nav */
-      right: 20px;
-      background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-      color: white;
-      padding: 15px 25px;
-      border-radius: 10px;
-      z-index: 1001;
-      opacity: 0;
-      transform: translateX(100%);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 10px 25px rgba(46,204,113,0.3);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .notification.show {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    /* MENU OVERLAY STYLING */
-    .menu-overlay {
-      position: fixed;
-      top: 0;
-      left: -300px;
-      width: 250px;
-      height: 100vh;
-      z-index: 1002;
-      transition: left 0.3s ease;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-      background-color: white;
-      padding: 20px 20px 20px 20px; /* Adjusted for category nav */
-      overflow-y: auto;
-    }
-
-    .menu-overlay.open {
-      left: 0;
-    }
-
-    .menu-item {
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-family: 'Lexend', sans-serif;
-      font-size: 16px;
-      color: #333;
-    }
-
-    .menu-item:hover {
-      background-color: #f8f8f8;
-      padding-left: 10px;
-    }
-
-    /* MENU BACKDROP */
-    .menu-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0,0,0,0.5);
-      z-index: 1001;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .menu-backdrop.open {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* LOADING STATE */
-    .loading {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
-    .discount-banner,
-    .product-carousel,
-    .products-grid {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    @media (min-width: 1321px) {
-      .topbar-section.left .buttons {
-        display: none;
-      }
-    }
-
-    @media (max-width: 1320px) {
-
-      /* Hide category nav on smaller screens */
-      .category-nav {
-        display: none;
-      }
-
-      /* MAIN CONTENT OFFSET */
-      .main {
-        margin-top: 70px;
-        height: 100%;
-        background-color: #f0f0f0;
-        padding: 20px;
-        width: 100%;
-        transition: margin-top 0.3s ease;
-      }
-      
-    }
-
-    /* RESPONSIVE DESIGN - TABLET/MOBILE */
-    @media (max-width: 870px) {
-
-      .main {
-        margin-top: 120px; /* Back to single topbar height */
-        padding: 15px; /* Slightly less padding on mobile */
-        max-width: 100%;
-      }
-
-      .topbar {
-        height: 120px;
-        padding: 10px 0;
-      }
-
-       .discount-title {
-        font-size: 32px;
-      }
-
-      .carousel-container {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .side-image {
-        display: none;
-      }
-
-      .main-imagebox {
-        width: 280px;
-        height: 350px;
-      }
-
-      .arrow-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 2;
-      }
-
-      .arrow-btn.prev {
-        left: 10px;
-      }
-
-      .arrow-btn.next {
-        right: 10px;
-      }
-
-      .products-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-
-      /* Hide category nav on smaller screens */
-      .category-nav {
-        display: none;
-      }
-
-      .topbar-section.left {
-        flex: 1;
-        order: 1;
-      }
-
-      .topbar-section.center {
-        width: 100%;
-        order: 3;
-        margin-top: 10px;
-        padding: 0 10px;
-      }
-
-      .topbar-section.right {
-        position: static;
-        order: 2;
-        margin-left: auto;
-        margin-right: 5px;
-      }
-
-      .search-input {
-        width: calc(100vw - 100px);
-        min-width: 200px;
-      }
-
-      .search-bar {
-        width: 80%;
-        max-width: none;
-      }
-
-      .main {
-        margin-top: 120px; /* Back to single topbar height */
-      }
-
-      .notification {
-        top: 130px;
-      }
-
-      .menu-overlay {
-        padding-top: 120px;
-      }
-    }
-
-    /* RESPONSIVE DESIGN - MOBILE */
-    @media (max-width: 480px) {
-      .topbar {
-        height: 130px;
-      }
-
-      /* Keep category nav hidden on mobile */
-      .category-nav {
-        display: none;
-      }
-
-      .search-input {
-        width: calc(100vw - 80px);
-        font-size: 16px;
-      }
-
-      .main {
-        margin-top: 130px;
-      }
-
-      .notification {
-        top: 140px;
-        right: 10px;
-        left: 10px;
-        transform: translateY(-100%);
-      }
-
-      .notification.show {
-        transform: translateY(0);
-      }
-
-      .arrow-button {
-        display: none;
-      }
-
-      .scroll-indicator {
-        width: 25px;
-        height: 25px;
-      }
-
-      .menu-overlay {
-        padding-top: 130px;
-      }
-    }
-
-    /* SIDEBAR TOUCH SUPPORT */
-    .menu-overlay {
-      -webkit-overflow-scrolling: touch;
-      touch-action: pan-y;
-    }
-
-    /* ADDITIONAL INTERACTIVE EFFECTS */
-    .topbar-section.left h1 {
-      margin: 0 15px;
-      font-size: 24px;
-      color: #333;
-      font-weight: 700;
-      transition: color 0.3s ease;
-    }
-
-    .topbar-section.left h1:hover {
-      color: #667eea;
-    }
-
-    /* SMOOTH SCROLLBAR */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
-
-    /* DEMO CONTENT */
-    .demo-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-
-    .demo-card {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-    }
-
-    .demo-title {
-      color: #333;
-      font-size: 28px;
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-
-    .demo-text {
-      color: #666;
-      line-height: 1.6;
-      font-size: 16px;
-    }
-  </style>
+  <link rel="stylesheet" href="css\main.css">
 </head>
 <body>
 
@@ -805,11 +12,7 @@
 <div class="topbar">
     <div class="topbar-section left">
         <div class="buttons" onclick="toggleMenu()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
+            <img src="icons\menu.png" alt="" class="button-images">
         </div>
         <h1>Ks kids</h1>
     </div>
@@ -828,15 +31,12 @@
 
     <div class="topbar-section right">
         <div class="buttons" onclick="showNotification('¡Tienes 3 notificaciones nuevas!')">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
-            </svg>
+            
+          <img src="icons\notification-bell.png" alt="" class="button-images">
+            
         </div>
         <div class="buttons" style="margin: 0 15px;" onclick="showNotification('¡Atención al cliente disponible 24/7!')">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-            </svg>
+            <img src="icons\customer-service.png" alt="" class="button-images">
         </div>
     </div>
 </div>
@@ -852,7 +52,7 @@
             <span class="category-icon">👶</span>
             Ropa de bebé
         </div>
-        <div class="category-item" onclick="selectCategory(this, 'ninos')" data-category="ninos">
+        <div class="category-item" onclick="selectCategory(this, 'niños')" data-category="ninos">
             <span class="category-icon">👧</span>
             De niños/as
         </div>
@@ -862,7 +62,7 @@
         </div>
         <div class="category-item" onclick="selectCategory(this, 'paraguas')" data-category="paraguas">
             <span class="category-icon">☂️</span>
-            Paraguas
+            Accesorios
         </div>
         <div class="category-item" onclick="selectCategory(this, 'juguetes')" data-category="juguetes">
             <span class="category-icon">🧸</span>
@@ -874,11 +74,11 @@
         </div>
         <div class="category-item" onclick="selectCategory(this, 'toallas-gorras-banadores')" data-category="toallas-gorras-banadores">
             <span class="category-icon">🏖️</span>
-            Toallas/gorras/bañadores
+            Verano
         </div>
         <div class="category-item" onclick="selectCategory(this, 'bufandas-batas')" data-category="bufandas-batas">
             <span class="category-icon">🧣</span>
-            Bufandas/batas
+            Invierno
         </div>
     </div>
 </div>
@@ -898,140 +98,200 @@
     <div class="discount-banner">
       <div class="discount-title">¡Descuentos!</div>
     </div>
-
-    <!-- Product Carousel -->
+   <!-- Product Carousel -->
     <div class="product-carousel" id="productCarousel">
       <button class="arrow-btn prev" onclick="previousProduct()">‹</button>
-      
+  
       <div class="carousel-container">
-        <img src="images\516204036_1213616423896700_999017950145108751_n.jpg" class="side-image" id="sideLeft" alt="Previous" />
+        <img src="images/516204036_1213616423896700_999017950145108751_n.jpg" class="side-image" id="sideLeft" alt="Previous" />
         
         <div class="main-product">
           <div class="main-imagebox" id="mainImageBox">
-            <img src="images\516891834_1213616377230038_4997410880746407739_n.jpg" alt="Producto principal" class="main-image" id="mainImage" />
+            <img src="images/516891834_1213616377230038_4997410880746407739_n.jpg" alt="Producto principal" class="main-image" id="mainImage" />
             <div class="product-info">
-              <div class="product-title" id="productTitle">Osito de Peluche</div>
-              <div class="product-price" id="productPrice">19,99 €</div>
+              <div class="product-title" id="productTitle">Cargando...</div>
+              <div class="product-price" id="productPrice">-</div>
             </div>
           </div>
         </div>
-        
-        <img src="images\518084926_1213616383896704_1024783052948639362_n.jpg" class="side-image" id="sideRight" alt="Next" />
+    
+        <img src="images/518084926_1213616383896704_1024783052948639362_n.jpg" class="side-image" id="sideRight" alt="Next" />
       </div>
 
       <button class="arrow-btn next" onclick="nextProduct()">›</button>
     </div>
-
+  
+    <div class="divider-line"></div>
     <!-- Products Grid -->
-    <div class="products-grid">
-      <div class="product-box">
-        <div class="product-image">
-          <img src="images\516204036_1213616423896700_999017950145108751_n.jpg" alt="Body de algodón" />
-          <div class="price-badge">€12.99</div>
-          <div class="stock-status in-stock">En stock</div>
-        </div>
-        <div class="product-content">
-          <h3 class="product-name">Body de Algodón Orgánico</h3>
-          <p class="product-description">Suave body de algodón 100% orgánico, perfecto para la piel delicada del bebé.</p>
-          <span class="product-category">Ropa bebé</span>
-        </div>
-      </div>
-
-      <div class="product-box">
-        <div class="product-image">
-          <img src="images\518352262_1213616443896698_818288500639219176_n.jpg" alt="Conjunto niño" />
-          <div class="price-badge">€24.99</div>
-          <div class="stock-status in-stock">En stock</div>
-        </div>
-        <div class="product-content">
-          <h3 class="product-name">Conjunto Camiseta + Pantalón</h3>
-          <p class="product-description">Conjunto cómodo y resistente para el día a día con estampado divertido.</p>
-          <span class="product-category">Niños/as</span>
-        </div>
-      </div>
-
-      <div class="product-box">
-        <div class="product-image">
-          <img src="images\516204036_1213616423896700_999017950145108751_n.jpg" alt="Paraguas infantil" />
-          <div class="price-badge">€8.99</div>
-          <div class="stock-status low-stock">Pocos</div>
-        </div>
-        <div class="product-content">
-          <h3 class="product-name">Paraguas Infantil Arcoíris</h3>
-          <p class="product-description">Paraguas colorido con diseño de arcoíris, ligero y fácil de manejar.</p>
-          <span class="product-category">Accesorios</span>
-        </div>
-      </div>
-
-      <div class="product-box">
-        <div class="product-image">
-          <img src="images\518352262_1213616443896698_818288500639219176_n.jpg" alt="Peluche oso" />
-          <div class="price-badge">€19.99</div>
-          <div class="stock-status in-stock">En stock</div>
-        </div>
-        <div class="product-content">
-          <h3 class="product-name">Osito de Peluche Suave</h3>
-          <p class="product-description">Adorable osito de peluche con textura súper suave, ideal para abrazar.</p>
-          <span class="product-category">Juguetes</span>
-        </div>
-      </div>
-
-      <div class="product-box">
-        <div class="product-image">
-          <img src="images\518352262_1213616443896698_818288500639219176_n.jpg" alt="Zapatillas infantiles" />
-          <div class="price-badge">€29.99</div>
-          <div class="stock-status in-stock">En stock</div>
-        </div>
-        <div class="product-content">
-          <h3 class="product-name">Zapatillas Deportivas</h3>
-          <p class="product-description">Zapatillas cómodas y transpirables con velcro, perfectas para correr.</p>
-          <span class="product-category">Calzado</span>
-        </div>
-      </div>
-
-      <div class="product-box">
-        <div class="product-image">
-          <img src="images\518352262_1213616443896698_818288500639219176_n.jpg" alt="Bufanda infantil" />
-          <div class="price-badge">€14.99</div>
-          <div class="stock-status out-of-stock">Agotado</div>
-        </div>
-        <div class="product-content">
-          <h3 class="product-name">Bufanda de Lana Suave</h3>
-          <p class="product-description">Bufanda tejida en lana suave y cálida, perfecta para el invierno.</p>
-          <span class="product-category">Invierno</span>
-        </div>
-      </div>
-    </div>
+    <div class="products-grid"></div>
   </div>
+  <footer class="footer">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-section">
+                    <h3>Empresa</h3>
+                    <ul>
+                        <li><a href="#">Acerca de Nosotros</a></li> ninos
+                        <li><a href="#">Nuestro Equipo</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Productos</h3>
+                    <ul>
+                        <li><a href="#">Características</a></li>
+                        <li><a href="#">Precios</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Soporte</h3>
+                    <ul>
+                        <li><a href="#">Centro de Ayuda</a></li>
+                        <li><a href="#">Contáctanos</a></li>
+                        <li><a href="#">Reportar Errores</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <div class="newsletter">
+                        <h3>Mantente Actualizado</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem; font-size: 0.9rem;">Recibe las últimas noticias y actualizaciones en tu bandeja de entrada.</p>
+                        <div class="newsletter-input">
+                            <input type="email" placeholder="Ingresa tu email" id="emailInput">
+                            <button id="subscribeBtn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" title="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" title="GitHub">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" title="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 KsKids.</p>
+                <div class="links">
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Términos de Servicio</a>
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 <script>
-  const products = [
-    {
-        name: "Osito de Peluche",
-        price: "19,99 €",
-        image: "images/516204036_1213616423896700_999017950145108751_n.jpg"
-    },
-    {
-        name: "Body de Algodón",
-        price: "12,99 €",
-        image: "images/516891834_1213616377230038_4997410880746407739_n.jpg"
-    },
-    {
-        name: "Conjunto Niño",
-        price: "24,99 €",
-        image: "images/518084926_1213616383896704_1024783052948639362_n.jpg"
-    },
-    {
-        name: "Paraguas Infantil",
-        price: "8,99 €",
-        image: "images/518088135_1213616500563359_2083818226617871534_n.jpg"
-    },
-    {
-        name: "Zapatillas Deportivas",
-        price: "29,99 €",
-        image: "images/518352262_1213616443896698_818288500639219176_n.jpg"
+
+    const emailInput = document.getElementById('emailInput');
+      const subscribeBtn = document.getElementById('subscribeBtn');
+
+      emailInput.addEventListener('input', function() {
+          if (this.value.trim() !== '') {
+              subscribeBtn.classList.add('active');
+          } else {
+              subscribeBtn.classList.remove('active');
+          }
+      });
+    
+    let products = [];
+    let discountedProducts = [];
+
+    // Function to load products from Firebase
+    async function loadProductsFromFirebase() {
+      try {
+        showNotification('Cargando productos...');
+        const querySnapshot = await window.firestoreFunctions.getDocs(
+          window.firestoreFunctions.collection(window.db, 'products')
+        );
+        
+        products = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          products.push({
+            id: doc.id,
+            name: data.name || 'Producto sin nombre',
+            price: data.price || '0,00 €',
+            discount: data.discount || 0,  
+            discountedPrice: data.discountedPrice || data.price, 
+            image: data.image || 'images/516204036_1213616423896700_999017950145108751_n.jpg',
+            category: data.category || 'todos',
+            description: data.description || ' . . . ',
+            stock: data.stock || 0,
+            featured: data.featured || false
+          });
+        });
+        
+        // Filter products with discounts for carousel
+        discountedProducts = products.filter(product => product.discount > 0);
+        
+        // Hide/show discount elements based on discounted products
+        const discountBanner = document.querySelector('.discount-banner');
+        const dividerLine = document.querySelector('.divider-line');
+        const carousel = document.querySelector('.product-carousel');
+
+        if (discountedProducts.length > 0) {
+          discountBanner.style.display = 'block';
+          dividerLine.style.display = 'block';
+          carousel.style.display = 'block';
+          
+          // Reset carousel index if it's out of bounds
+          if (currentProductIndex >= discountedProducts.length) {
+            currentProductIndex = 0;
+          }
+          
+          // Update carousel with discounted products and grid with all products
+          updateProduct();
+          updateProductsGrid();
+          showNotification(`${products.length} productos cargados, ${discountedProducts.length} con descuento`);
+        } else {
+          discountBanner.style.display = 'none';
+          dividerLine.style.display = 'none';
+          carousel.style.display = 'none';
+          
+          // Still show all products in grid
+          updateProductsGrid();
+          showNotification(`${products.length} productos cargados (sin descuentos)`);
+        }
+        
+        if (products.length === 0) {
+          showNotification('No se encontraron productos');
+        }
+      } catch (error) {
+        console.error('Error loading products:', error);
+        showNotification('Error al cargar productos');
+      }
     }
-];
+
+
     let isMenuOpen = false;
     let currentProductIndex = 0;
     let isTransitioning = false;
@@ -1052,14 +312,57 @@
       }, 3000);
     }
 
+    function hasDiscountedProducts() {
+      return products.some(product => product.discount > 0);
+    }
+
+    function updateProductsGrid() {
+      const productsGrid = document.querySelector('.products-grid');
+      productsGrid.innerHTML = ''; // Clear existing products
+      
+      // Show ALL products in the grid (not just discounted ones)
+      products.forEach(product => {
+        const productBox = document.createElement('div');
+        productBox.className = 'product-box';
+        productBox.setAttribute('data-category', product.category);
+        
+        const stockStatus = product.stock > 10 ? 'in-stock' : 
+                          product.stock > 0 ? 'low-stock' : 'out-of-stock';
+        const stockText = product.stock > 10 ? 'En stock' : 
+                          product.stock > 0 ? 'Pocos' : 'Agotado';
+        const priceDisplay = product.discount > 0 
+          ? `<span class="original-price" style="text-decoration: line-through; margin-right: 5px;">${product.price}</span><span style="color: #ff6b6b;">${product.discountedPrice}</span>`
+          : product.price;
+
+        productBox.innerHTML = `
+          <div class="product-image">
+            <img src="${product.image}" alt="${product.name}" />
+            <div class="price-badge">${product.discount > 0 ? product.discountedPrice : product.price}</div>
+            <div class="stock-status ${stockStatus}">${stockText}</div>
+          </div>
+          <div class="product-content">
+            <h3 class="product-name">${product.name}</h3>
+            <p class="product-description">${product.description}</p>
+            <span class="product-category">${product.category}</span>
+          </div>
+        `;
+        
+        productsGrid.appendChild(productBox);
+      });
+      
+      // Reinitialize product click handlers
+      initializeProductClicks();
+    }
+
     // Product carousel functionality
     function updateProduct() {
-      if (isTransitioning) return;
+      if (isTransitioning || discountedProducts.length === 0) return;
       isTransitioning = true;
 
-      const product = products[currentProductIndex];
-      const prevIndex = (currentProductIndex - 1 + products.length) % products.length;
-      const nextIndex = (currentProductIndex + 1) % products.length;
+      // Use discountedProducts array for carousel instead of all products
+      const product = discountedProducts[currentProductIndex];
+      const prevIndex = (currentProductIndex - 1 + discountedProducts.length) % discountedProducts.length;
+      const nextIndex = (currentProductIndex + 1) % discountedProducts.length;
 
       // Update main product with smooth transition
       const mainImage = document.getElementById('mainImage');
@@ -1076,29 +379,31 @@
         mainImage.src = product.image;
         mainImage.alt = product.name;
         productTitle.textContent = product.name;
-        productPrice.textContent = product.price;
+        
+        // Always show both prices since these are discounted products
+        productPrice.innerHTML = `<span class="original-price">${product.price}</span><span class="discounted-price">${product.discountedPrice}</span>`;
         
         // Update side images
-        sideLeft.src = products[prevIndex].image.replace('300&h=400', '120&h=160');
-        sideRight.src = products[nextIndex].image.replace('300&h=400', '120&h=160');
+        sideLeft.src = discountedProducts[prevIndex].image.replace('300&h=400', '120&h=160');
+        sideRight.src = discountedProducts[nextIndex].image.replace('300&h=400', '120&h=160');
         
         // Fade in
         setTimeout(() => {
-        mainImage.style.opacity = '1';
-      }, 50);
+          mainImage.style.opacity = '1';
+        }, 50);
         isTransitioning = false;
       }, 300);
     }
 
     function nextProduct() {
-      if (isTransitioning) return;
-      currentProductIndex = (currentProductIndex + 1) % products.length;
+      if (isTransitioning || discountedProducts.length === 0) return;
+      currentProductIndex = (currentProductIndex + 1) % discountedProducts.length;
       updateProduct();
     }
 
     function previousProduct() {
-      if (isTransitioning) return;
-      currentProductIndex = (currentProductIndex - 1 + products.length) % products.length;
+      if (isTransitioning || discountedProducts.length === 0) return;
+      currentProductIndex = (currentProductIndex - 1 + discountedProducts.length) % discountedProducts.length;
       updateProduct();
     }
 
@@ -1182,7 +487,7 @@
     // Handle window resize
     window.addEventListener('resize', function() {
       // Adjust carousel for orientation changes
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 870) {
         const sideImages = document.querySelectorAll('.side-image');
         sideImages.forEach(img => img.style.display = 'none');
       } else {
@@ -1193,10 +498,12 @@
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-      updateProduct();
+      // Load products from Firebase first
+      loadProductsFromFirebase();
+      
+      // Initialize other functionality
       initializeSwipe();
       initializeSideImageClicks();
-      initializeProductClicks();
       startAutoRotate();
       
       // Add loading animation
@@ -1207,17 +514,16 @@
       }, 100);
     });
 
-    // Categories data in Spanish
     const categories = [
         { id: 'todos', icon: '🏠', name: 'Todos' },
         { id: 'ropa-bebe', icon: '👶', name: 'Ropa de bebé' },
-        { id: 'ninos', icon: '👧', name: 'De niños/as' },
+        { id: 'niños', icon: '👧', name: 'De niños/as' },
         { id: 'chicos', icon: '🧒', name: 'De chicos/as' },
-        { id: 'paraguas', icon: '☂️', name: 'Paraguas' },
+        { id: 'paraguas', icon: '☂️', name: 'Accesorios' },
         { id: 'juguetes', icon: '🧸', name: 'Juguetes' },
         { id: 'calzado', icon: '👟', name: 'Calzado' },
-        { id: 'toallas-gorras-banadores', icon: '🏖️', name: 'Toallas/gorras/bañadores' },
-        { id: 'bufandas-batas', icon: '🧣', name: 'Bufandas/batas' }
+        { id: 'toallas-gorras-banadores', icon: '🏖️', name: 'Verano' },
+        { id: 'bufandas-batas', icon: '🧣', name: 'Invierno' }
     ];
 
     // Check if we should show categories in menu (mobile view)
@@ -1260,9 +566,68 @@
             });
         }
         
-        showNotification(`Selected category: ${categoryName}`);
+        // Filter products
+        filterProducts(categoryId);
+        
+        showNotification(`Filtered by: ${categoryName}`);
         toggleMenu();
     }
+
+    function filterProducts(categoryId) {
+      const productBoxes = document.querySelectorAll('.product-box');
+      const productsGrid = document.querySelector('.products-grid');
+      let visibleCount = 0;
+      
+      // Remove any existing "no products" message
+      const existingNoProducts = document.querySelector('.no-products');
+      if (existingNoProducts) {
+          existingNoProducts.remove();
+      }
+      
+      // First, add filtering-out class to boxes that will be hidden
+      productBoxes.forEach(box => {
+          const productCategory = box.getAttribute('data-category');
+          removeHighlight(box);
+          
+          if (categoryId === 'todos' || productCategory === categoryId) {
+              box.classList.remove('filtering-out');
+              visibleCount++;
+          } else {
+              box.classList.add('filtering-out');
+          }
+      });
+      
+      // After animation, actually hide the boxes
+      setTimeout(() => {
+          productBoxes.forEach(box => {
+              const productCategory = box.getAttribute('data-category');
+              if (categoryId === 'todos' || productCategory === categoryId) {
+                  box.style.display = 'block';
+              } else {
+                  box.style.display = 'none';
+                  box.classList.remove('filtering-out');
+              }
+          });
+      }, 300); // Match the transition duration
+      
+      // Show message if no products found
+      if (visibleCount === 0) {
+          setTimeout(() => {
+              const noProductsDiv = document.createElement('div');
+              noProductsDiv.className = 'no-products';
+              noProductsDiv.textContent = 'No hay productos disponibles en esta categoría';
+              noProductsDiv.style.opacity = '0';
+              noProductsDiv.style.transform = 'translateY(20px)';
+              noProductsDiv.style.transition = 'all 0.3s ease';
+              productsGrid.appendChild(noProductsDiv);
+              
+              setTimeout(() => {
+                  noProductsDiv.style.opacity = '1';
+                  noProductsDiv.style.transform = 'translateY(0)';
+              }, 50);
+          }, 300);
+      }
+  }
 
     // Menu functionality
     function toggleMenu() {
@@ -1291,9 +656,12 @@
         // Add active class to clicked category
         element.classList.add('active');
         
+        // Filter products
+        filterProducts(categoryId);
+        
         // Show notification with selected category
         const categoryName = element.textContent.trim();
-        showNotification(`Selected category: ${categoryName}`);
+        showNotification(`Filtered by: ${categoryName}`);
         
         // Scroll the selected category into view
         element.scrollIntoView({
@@ -1355,23 +723,132 @@
 
     // Search functionality
     function performSearch() {
-        const searchInput = document.getElementById('searchInput');
-        const query = searchInput.value.trim();
-        
-        if (query) {
-            showNotification(`Searching for: "${query}"`);
-            searchInput.value = '';
+      const searchInput = document.getElementById('searchInput');
+      const query = searchInput.value.trim().toLowerCase();
+      
+      if (query) {
+          showNotification(`Buscando: "${query}"`);
+          
+          // Filter products based on search query
+          const productBoxes = document.querySelectorAll('.product-box');
+          const productsGrid = document.querySelector('.products-grid');
+          let visibleCount = 0;
+          
+          // Remove any existing "no products" message
+          const existingNoProducts = document.querySelector('.no-products');
+          if (existingNoProducts) {
+              existingNoProducts.remove();
+          }
+          
+          // Reset category selection to show search results
+          const allCategories = document.querySelectorAll('.category-item');
+          allCategories.forEach(item => item.classList.remove('active'));
+          // Set "Todos" as active during search
+          const todosCategory = document.querySelector('[data-category="todos"]');
+          if (todosCategory) {
+              todosCategory.classList.add('active');
+          }
+          
+          productBoxes.forEach(box => {
+            const productName = box.querySelector('.product-name').textContent.toLowerCase();
+            const productDescription = box.querySelector('.product-description').textContent.toLowerCase();
+            const productCategory = box.querySelector('.product-category').textContent.toLowerCase();
             
-            // Simulate search loading
-            const searchButton = document.querySelector('.search');
-            searchButton.style.opacity = '0.5';
-            setTimeout(() => {
-                searchButton.style.opacity = '1';
-            }, 1000);
-        } else {
-            showNotification('Please enter a search term');
-        }
-    }
+            if (productName.includes(query) || 
+                productDescription.includes(query) || 
+                productCategory.includes(query)) {
+                box.classList.remove('filtering-out');
+                highlightSearchTerm(box, query);
+                visibleCount++;
+            } else {
+                box.classList.add('filtering-out');
+                removeHighlight(box);
+            }
+        });
+
+        // After animation, actually hide the boxes
+        setTimeout(() => {
+            productBoxes.forEach(box => {
+                const productName = box.querySelector('.product-name').textContent.toLowerCase();
+                const productDescription = box.querySelector('.product-description').textContent.toLowerCase();
+                const productCategory = box.querySelector('.product-category').textContent.toLowerCase();
+                
+                if (productName.includes(query) || 
+                    productDescription.includes(query) || 
+                    productCategory.includes(query)) {
+                    box.classList.remove('hidden');
+                } else {
+                    box.classList.add('hidden');
+                    box.classList.remove('filtering-out');
+                }
+            });
+        }, 300);
+          
+          // Show message if no products found
+          if (visibleCount === 0) {
+              const noProductsDiv = document.createElement('div');
+              noProductsDiv.className = 'no-products';
+              noProductsDiv.innerHTML = `No se encontraron productos para: "<strong>${query}</strong>"`;
+              productsGrid.appendChild(noProductsDiv);
+          } else {
+              showNotification(`${visibleCount} productos encontrados`);
+          }
+          
+          // Clear search input after search
+          searchInput.value = '';
+          
+          // Add visual feedback to search button
+          const searchButton = document.querySelector('.search');
+          searchButton.style.opacity = '0.5';
+          setTimeout(() => {
+              searchButton.style.opacity = '1';
+          }, 500);
+          
+      } else {
+          showNotification('Por favor ingresa un término de búsqueda');
+          // If empty search, show all products
+          showAllProducts();
+      }
+  }
+
+  // Helper function to highlight search terms
+  function highlightSearchTerm(productBox, query) {
+      const productName = productBox.querySelector('.product-name');
+      const originalText = productName.textContent;
+      const highlightedText = originalText.replace(
+          new RegExp(`(${query})`, 'gi'), 
+          '<span style="background-color: none; color: black;">$1</span>'
+      );
+      productName.innerHTML = highlightedText;
+  }
+
+  // Helper function to remove highlighting
+  function removeHighlight(productBox) {
+      const productName = productBox.querySelector('.product-name');
+      productName.innerHTML = productName.textContent; // Remove any HTML tags
+  }
+
+  // Helper function to show all products (reset search)
+  function showAllProducts() {
+      const productBoxes = document.querySelectorAll('.product-box');
+      productBoxes.forEach(box => {
+          box.classList.remove('hidden');
+          removeHighlight(box);
+      });
+      
+      // Remove "no products" message
+      const existingNoProducts = document.querySelector('.no-products');
+      if (existingNoProducts) {
+          existingNoProducts.remove();
+      }
+  }
+
+  // Add a clear search function (optional)
+  function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      showAllProducts();
+      showNotification('Búsqueda limpiada');
+  }
 
     // Search on Enter key
     document.getElementById('searchInput').addEventListener('keypress', function(e) {
@@ -1501,6 +978,30 @@
     window.addEventListener('resize', function() {
         setTimeout(updateScrollIndicators, 100);
     });
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+  import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDii92erBDqj58did_0cwOoHIhw5OO3WVQ",
+    authDomain: "kskids-7740b.firebaseapp.com",
+    projectId: "kskids-7740b",
+    storageBucket: "kskids-7740b.firebasestorage.app",
+    messagingSenderId: "1061159747962",
+    appId: "1:1061159747962:web:0c9f7463e7107a680a56c3",
+    measurementId: "G-Y857VG4YYZ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+
+  // Make db available globally
+  window.db = db;
+  window.firestoreFunctions = { collection, getDocs, onSnapshot };
 </script>
 
 </body>
