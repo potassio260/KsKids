@@ -41,6 +41,161 @@ body {
     overflow: hidden;
     position: relative;
 }
+.product-info-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.product-info-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.product-info-content {
+    background: white;
+    border-radius: 20px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(50px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.product-info-modal.show .product-info-content {
+    transform: translateY(0);
+}
+
+.product-info-header {
+    position: relative;
+    padding: 0;
+}
+
+.product-info-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.close-modal:hover {
+    background: white;
+    transform: scale(1.1);
+}
+
+.product-info-body {
+    padding: 25px;
+}
+
+.product-info-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.product-info-price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.product-info-price .original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 10px;
+}
+
+.product-info-price .discounted-price {
+    color: #ff6b6b;
+}
+
+.product-info-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.product-info-details {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.product-detail {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.product-detail-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.product-detail-value {
+    font-weight: bold;
+    color: #333;
+}
+
+.stock-indicator {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.stock-indicator.in-stock {
+    background: #d4edda;
+    color: #155724;
+}
+
+.stock-indicator.low-stock {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.stock-indicator.out-of-stock {
+    background: #f8d7da;
+    color: #721c24;
+}
 
 .discount-title {
     color: white;
@@ -332,6 +487,11 @@ body {
     transform: translateX(0);
 }
 
+@supports (-webkit-appearance: none) {
+    .search-input {
+        border-radius: 0;
+    }
+}
 /* TOPBAR CORE STYLING */
 .topbar {
     height: 70px;
@@ -465,6 +625,8 @@ body {
     display: flex;
     justify-content: start;
     order: 2;
+    pointer-events: auto;
+    z-index: 10;
 }
 
 .topbar-section.right {
@@ -484,6 +646,9 @@ body {
     background: #f6f6f6;
     height: 23px;
     margin-left: 5vw;
+    z-index: 10;
+    pointer-events: auto;
+    position: relative;
 }
 
 .search-input {
@@ -495,6 +660,16 @@ body {
     outline: none;
     border: none;
     background: transparent;
+     pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    z-index: 11;
+    position: relative;
+}
+
+.search-input:focus {
+    outline: none;
+    z-index: 12;
 }
 
 .search-input::placeholder {
@@ -744,6 +919,16 @@ body {
 
     .arrow-btn.next {
     right: 10px;
+    }
+
+     .product-info-content {
+        margin: 20px;
+        width: calc(100% - 40px);
+    }
+    
+    .product-info-details {
+        flex-direction: column;
+        gap: 10px;
     }
 }
 
