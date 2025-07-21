@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Topbar con Navegación por Categorías - Ks Kids Shop</title>
+  <title>Ks Kids Shop</title>
   <link rel="stylesheet" href="css\main.css">
 </head>
 <body>
@@ -35,7 +35,7 @@
           <img src="icons\notification-bell.png" alt="" class="button-images">
             
         </div>
-        <div class="buttons" style="margin: 0 15px;" onclick="showNotification('¡Atención al cliente disponible 24/7!')">
+        <div class="buttons" style="margin: 0 15px;" onclick="openContactModal()">
             <img src="icons\customer-service.png" alt="" class="button-images">
         </div>
     </div>
@@ -60,7 +60,7 @@
             <span class="category-icon">🧒</span>
             De chicos/as
         </div>
-        <div class="category-item" onclick="selectCategory(this, 'paraguas')" data-category="paraguas">
+        <div class="category-item" onclick="selectCategory(this, 'accesorio')" data-category="accesorios">
             <span class="category-icon">📿</span>
             Accesorios
         </div>
@@ -72,11 +72,11 @@
             <span class="category-icon">👟</span>
             Calzado
         </div>
-        <div class="category-item" onclick="selectCategory(this, 'toallas-gorras-banadores')" data-category="toallas-gorras-banadores">
+        <div class="category-item" onclick="selectCategory(this, 'verano')" data-category="verano">
             <span class="category-icon">🏖️</span>
             Verano
         </div>
-        <div class="category-item" onclick="selectCategory(this, 'bufandas-batas')" data-category="bufandas-batas">
+        <div class="category-item" onclick="selectCategory(this, 'invierno')" data-category="invierno">
             <span class="category-icon">🧣</span>
             Invierno
         </div>
@@ -91,6 +91,69 @@
 
 <!-- NOTIFICATION -->
 <div class="notification" id="notification"></div>
+
+<!-- CONTACT MODAL -->
+<div class="contact-modal" id="contactModal">
+    <div class="contact-modal-content">
+        <div class="contact-modal-header">
+            <h2>📞 Contáctanos</h2>
+            <button class="close-contact-modal" onclick="closeContactModal()">&times;</button>
+        </div>
+        <div class="contact-modal-body">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-details">
+                        <h3>Email</h3>
+                        <p>olifkskids@gmail.com</p>
+                        <a href="mailto:olifkskids@gmail.com" class="contact-btn">Enviar Email</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-details">
+                        <h3>Teléfono</h3>
+                        <p>+34 697 20 84 76</p>
+                        <a href="tel:+34697208476" class="contact-btn">Llamar Ahora</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">💬</div>
+                    <div class="contact-details">
+                        <h3>WhatsApp</h3>
+                        <p>Respuesta inmediata</p>
+                        <a href="https://wa.me/34697208476" target="_blank" class="contact-btn">Abrir WhatsApp</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-details">
+                        <h3>Ubicación</h3>
+                        <p>Beniel, Spain</p>
+                        <p class="contact-address">c. Francisco Robles 19</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">🕒</div>
+                    <div class="contact-details">
+                        <h3>Horario de Atención</h3>
+                        <p>Lunes: 10:30 - 13:30 & 18:00 - 20:00</p>
+                        <p>Martes: 10:30 - 13:30</p>
+                        <p>Miércoles: 10:30 - 13:30 & 18:00 - 20:00</p>
+                        <p>Jueves: 10:30 - 13:30</p>
+                        <p>Viernes: 10:30 - 13:30 & 18:00 - 20:00</p>
+                        <p>Sábados: 10:30 - 13:30</p>
+                        <p>Domingos: Mercado</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Main Content -->
   <div class="main">
@@ -166,6 +229,8 @@
                     <ul>
                         <li><a href="https://www.facebook.com/p/KS-kids-100057450610975/?_rdr">Acerca de Nosotros</a></li> 
                         <li><a href="https://www.flaticon.com/">Uso de Iconos</a></li>
+                        <li><a href="https://www.flaticon.com/free-icons/notification" title="notification icons">Notification icons created by ghufronagustian - Flaticon</a></li>
+                        <li><a href="https://www.flaticon.com/free-icons/customer-service" title="customer service icons">Customer service icons created by Freepik - Flaticon</a></li>
                     </ul>
                 </div>
                 
@@ -181,7 +246,7 @@
                     <h3>Soporte</h3>
                     <ul>
                         <li><a href="#">Centro de Ayuda</a></li>
-                        <li><a href="#">Contáctanos</a></li>
+                        <li><a onclick="openContactModal()">Contáctanos</a></li>
                         <li><a href="#">Reportar Errores</a></li>
                     </ul>
                 </div>
@@ -234,6 +299,34 @@
     </footer>
 
 <script>
+
+    // Contact Modal Functions
+    function openContactModal() {
+        const modal = document.getElementById('contactModal');
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeContactModal() {
+        const modal = document.getElementById('contactModal');
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    // Close contact modal when clicking outside
+    document.addEventListener('click', function(e) {
+        const modal = document.getElementById('contactModal');
+        if (e.target === modal) {
+            closeContactModal();
+        }
+    });
+
+    // Close contact modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('contactModal').classList.contains('show')) {
+            closeContactModal();
+        }
+    });
 
     const emailInput = document.getElementById('emailInput');
       const subscribeBtn = document.getElementById('subscribeBtn');
@@ -632,11 +725,11 @@
         { id: 'ropa-bebe', icon: '👶', name: 'Ropa de bebé' },
         { id: 'niños', icon: '👧', name: 'De niños/as' },
         { id: 'chicos', icon: '🧒', name: 'De chicos/as' },
-        { id: 'paraguas', icon: '📿', name: 'Accesorios' },
+        { id: 'accesorio', icon: '📿', name: 'Accesorios' },
         { id: 'juguetes', icon: '🧸', name: 'Juguetes' },
         { id: 'calzado', icon: '👟', name: 'Calzado' },
         { id: 'toallas-gorras-banadores', icon: '🏖️', name: 'Verano' },
-        { id: 'bufandas-batas', icon: '🧣', name: 'Invierno' }
+        { id: 'invierno', icon: '🧣', name: 'Invierno' }
     ];
 
     // Check if we should show categories in menu (mobile view)
@@ -924,6 +1017,14 @@
       }
   }
 
+  // Fix mobile keyboard issues
+    document.getElementById('searchInput').addEventListener('focus', function() {
+        // Small delay to ensure proper keyboard behavior
+        setTimeout(() => {
+            this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    });
+
   // Helper function to highlight search terms
   function highlightSearchTerm(productBox, query) {
       const productName = productBox.querySelector('.product-name');
@@ -1001,6 +1102,13 @@
     let isSidebarSwipeActive = false;
 
     function handleSidebarTouchStart(e) {
+        // Don't interfere with search bar or other interactive elements
+        if (e.target.closest('.search-bar') || 
+            e.target.closest('.buttons') || 
+            e.target.closest('input')) {
+            return;
+        }
+        
         const touch = e.touches[0];
         sidebarTouchStartX = touch.clientX;
         sidebarTouchStartY = touch.clientY;
@@ -1010,6 +1118,9 @@
     function handleSidebarTouchMove(e) {
         if (!isSidebarSwipeActive || !isMenuOpen) return;
         
+        // Don't interfere with search bar
+        if (e.target.closest('.search-bar')) return;
+        
         const touch = e.touches[0];
         const deltaX = touch.clientX - sidebarTouchStartX;
         const deltaY = Math.abs(touch.clientY - sidebarTouchStartY);
@@ -1018,6 +1129,7 @@
             e.preventDefault();
         }
     }
+
 
     function handleSidebarTouchEnd(e) {
         if (!isSidebarSwipeActive || !isMenuOpen) return;
@@ -1091,16 +1203,11 @@
     window.addEventListener('resize', function() {
         setTimeout(updateScrollIndicators, 100);
     });
-    
-    document.getElementById('searchInput').addEventListener('touchstart', function(e) {
-        e.stopPropagation();
-        this.focus();
-    }, { passive: false });
 
     // Prevent menu from opening when clicking search area
-    document.querySelector('.search-bar').addEventListener('touchstart', function(e) {
-        e.stopPropagation();
-    }, { passive: false });
+    document.querySelector('.search-bar').addEventListener('click', function(e) {
+    e.stopPropagation();
+    });
 
 </script>
 
