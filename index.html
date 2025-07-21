@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Topbar con Navegación por Categorías - Ks Kids Shop</title>
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css\main.css">
 </head>
 <body>
 
@@ -61,7 +61,7 @@
             De chicos/as
         </div>
         <div class="category-item" onclick="selectCategory(this, 'paraguas')" data-category="paraguas">
-            <span class="category-icon">☂️</span>
+            <span class="category-icon">📿</span>
             Accesorios
         </div>
         <div class="category-item" onclick="selectCategory(this, 'juguetes')" data-category="juguetes">
@@ -94,6 +94,33 @@
 
 <!-- Main Content -->
   <div class="main">
+    <!-- PRODUCT INFO MODAL -->
+    <div class="product-info-modal" id="productInfoModal">
+        <div class="product-info-content">
+            <div class="product-info-header">
+                <img src="" alt="" class="product-info-image" id="modalProductImage">
+                <button class="close-modal" onclick="closeProductInfo()">&times;</button>
+            </div>
+            <div class="product-info-body">
+                <h2 class="product-info-title" id="modalProductTitle">Product Name</h2>
+                <div class="product-info-price" id="modalProductPrice">€0.00</div>
+                <p class="product-info-description" id="modalProductDescription">Product description goes here...</p>
+                
+                <div class="product-info-details">
+                    <div class="product-detail">
+                        <div class="product-detail-label">Categoría</div>
+                        <div class="product-detail-value" id="modalProductCategory">Category</div>
+                    </div>
+                    <div class="product-detail">
+                        <div class="product-detail-label">Stock</div>
+                        <div class="product-detail-value">
+                            <span class="stock-indicator" id="modalProductStock">Available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Discount Banner -->
     <div class="discount-banner">
       <div class="discount-title">¡Descuentos!</div>
@@ -137,8 +164,8 @@
                 <div class="footer-section">
                     <h3>Empresa</h3>
                     <ul>
-                        <li><a href="#">Acerca de Nosotros</a></li> ninos
-                        <li><a href="#">Nuestro Equipo</a></li>
+                        <li><a href="https://www.facebook.com/p/KS-kids-100057450610975/?_rdr">Acerca de Nosotros</a></li> 
+                        <li><a href="https://www.flaticon.com/">Uso de Iconos</a></li>
                     </ul>
                 </div>
                 
@@ -174,14 +201,14 @@
                     </div>
                     
                     <div class="social-links">
-                        <a href="#" class="social-link" title="Twitter">
+                       <a href="https://www.facebook.com/people/KS-kids/100057450610975/?sk=following" class="social-link" title="Facebook">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                             </svg>
                         </a>
-                        <a href="#" class="social-link" title="LinkedIn">
+                        <a href="#" class="social-link" title="TikTok">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                             </svg>
                         </a>
                         <a href="#" class="social-link" title="GitHub">
@@ -201,9 +228,6 @@
             <div class="footer-bottom">
                 <p>&copy; 2025 KsKids.</p>
                 <div class="links">
-                    <a href="#">Política de Privacidad</a>
-                    <a href="#">Términos de Servicio</a>
-                    <a href="#">Cookies</a>
                 </div>
             </div>
         </div>
@@ -249,9 +273,8 @@
             featured: data.featured || false
           });
         });
-        
         // Filter products with discounts for carousel
-        discountedProducts = products.filter(product => product.discount > 0);
+        discountedProducts = products.filter(product => product.discount > 0 && product.stock > 0);
         
         // Hide/show discount elements based on discounted products
         const discountBanner = document.querySelector('.discount-banner');
@@ -291,6 +314,80 @@
       }
     }
 
+    // Modified JavaScript Functions
+    let currentSelectedProduct = null;
+
+    function openProductInfo(product) {
+        currentSelectedProduct = product;
+        const modal = document.getElementById('productInfoModal');
+        const modalImage = document.getElementById('modalProductImage');
+        const modalTitle = document.getElementById('modalProductTitle');
+        const modalPrice = document.getElementById('modalProductPrice');
+        const modalDescription = document.getElementById('modalProductDescription');
+        const modalCategory = document.getElementById('modalProductCategory');
+        const modalStock = document.getElementById('modalProductStock');
+
+        // Populate modal with product data
+        modalImage.src = product.image;
+        modalImage.alt = product.name;
+        modalTitle.textContent = product.name;
+        modalDescription.textContent = product.description;
+        modalCategory.textContent = product.category;
+
+        // Handle pricing
+        if (product.discount > 0) {
+            modalPrice.innerHTML = `<span class="original-price">${product.price}</span><span class="discounted-price">${product.discountedPrice}</span>`;
+        } else {
+            modalPrice.innerHTML = product.price;
+        }
+
+        // Handle stock status - Modified to not show specific numbers when low stock
+        const stockStatus = product.stock > 10 ? 'in-stock' : 
+                        product.stock > 0 ? 'low-stock' : 'out-of-stock';
+        const stockText = product.stock > 10 ? 'En Stock' : 
+                        product.stock > 0 ? 'Stock Limitado' : 'Agotado'; // Changed to not show specific number
+        
+        modalStock.className = `stock-indicator ${stockStatus}`;
+        modalStock.textContent = stockText;
+
+        // Show modal with animation
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
+    }
+
+    function closeProductInfo() {
+        const modal = document.getElementById('productInfoModal');
+        modal.classList.remove('show');
+        document.body.style.overflow = ''; // Restore scroll
+        currentSelectedProduct = null;
+    }
+
+    function addToCart() {
+        if (currentSelectedProduct && currentSelectedProduct.stock > 0) {
+            showNotification(`"${currentSelectedProduct.name}" añadido al carrito`);
+            closeProductInfo();
+        }
+    }
+
+    function addToWishlist() {
+        if (currentSelectedProduct) {
+            showNotification(`"${currentSelectedProduct.name}" añadido a favoritos`);
+        }
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('productInfoModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeProductInfo();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('productInfoModal').classList.contains('show')) {
+            closeProductInfo();
+        }
+    });
 
     let isMenuOpen = false;
     let currentProductIndex = 0;
@@ -353,7 +450,7 @@
       // Reinitialize product click handlers
       initializeProductClicks();
     }
-
+    
     // Product carousel functionality
     function updateProduct() {
       if (isTransitioning || discountedProducts.length === 0) return;
@@ -466,22 +563,38 @@
 
     // Click handlers for side images
     function initializeSideImageClicks() {
-      const sideLeft = document.getElementById('sideLeft');
-      const sideRight = document.getElementById('sideRight');
-      
-      sideLeft.addEventListener('click', previousProduct);
-      sideRight.addEventListener('click', nextProduct);
+        const sideLeft = document.getElementById('sideLeft');
+        const sideRight = document.getElementById('sideRight');
+        const mainImage = document.getElementById('mainImage');
+        
+        sideLeft.addEventListener('click', previousProduct);
+        sideRight.addEventListener('click', nextProduct);
+        
+        // Add click handler for main carousel image
+        mainImage.addEventListener('click', () => {
+            if (discountedProducts.length > 0) {
+                const currentProduct = discountedProducts[currentProductIndex];
+                openProductInfo(currentProduct);
+            }
+        });
+        
+        // Make main image appear clickable
+        mainImage.style.cursor = 'pointer';
     }
 
     // Product box click handlers
     function initializeProductClicks() {
-      const productBoxes = document.querySelectorAll('.product-box');
-      productBoxes.forEach((box, index) => {
-        box.addEventListener('click', () => {
-          const productName = box.querySelector('.product-name').textContent;
-          showNotification(`Ver detalles de: ${productName}`);
+        const productBoxes = document.querySelectorAll('.product-box');
+        productBoxes.forEach((box, index) => {
+            box.addEventListener('click', () => {
+                const productName = box.querySelector('.product-name').textContent;
+                // Find the product in our products array
+                const product = products.find(p => p.name === productName);
+                if (product) {
+                    openProductInfo(product);
+                }
+            });
         });
-      });
     }
 
     // Handle window resize
@@ -519,7 +632,7 @@
         { id: 'ropa-bebe', icon: '👶', name: 'Ropa de bebé' },
         { id: 'niños', icon: '👧', name: 'De niños/as' },
         { id: 'chicos', icon: '🧒', name: 'De chicos/as' },
-        { id: 'paraguas', icon: '☂️', name: 'Accesorios' },
+        { id: 'paraguas', icon: '📿', name: 'Accesorios' },
         { id: 'juguetes', icon: '🧸', name: 'Juguetes' },
         { id: 'calzado', icon: '👟', name: 'Calzado' },
         { id: 'toallas-gorras-banadores', icon: '🏖️', name: 'Verano' },
@@ -978,6 +1091,17 @@
     window.addEventListener('resize', function() {
         setTimeout(updateScrollIndicators, 100);
     });
+    
+    document.getElementById('searchInput').addEventListener('touchstart', function(e) {
+        e.stopPropagation();
+        this.focus();
+    }, { passive: false });
+
+    // Prevent menu from opening when clicking search area
+    document.querySelector('.search-bar').addEventListener('touchstart', function(e) {
+        e.stopPropagation();
+    }, { passive: false });
+
 </script>
 
 <script type="module">
