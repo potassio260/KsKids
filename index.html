@@ -344,67 +344,85 @@
 
     // Function to load products from Firebase
     async function loadProductsFromFirebase() {
-      try {
-        showNotification('Cargando productos...');
-        const querySnapshot = await window.firestoreFunctions.getDocs(
-          window.firestoreFunctions.collection(window.db, 'products')
-        );
-        
-        products = [];
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          products.push({
-            id: doc.id,
-            name: data.name || 'Producto sin nombre',
-            price: data.price || '0,00 €',
-            discount: data.discount || 0,  
-            discountedPrice: data.discountedPrice || data.price, 
-            image: data.image || 'images/516204036_1213616423896700_999017950145108751_n.jpg',
-            category: data.category || 'todos',
-            description: data.description || ' . . . ',
-            stock: data.stock || 0,
-            featured: data.featured || false
-          });
-        });
-        // Filter products with discounts for carousel
-        discountedProducts = products.filter(product => product.discount > 0 && product.stock > 0);
-        
-        // Hide/show discount elements based on discounted products
-        const discountBanner = document.querySelector('.discount-banner');
-        const dividerLine = document.querySelector('.divider-line');
-        const carousel = document.querySelector('.product-carousel');
-
-        if (discountedProducts.length > 0) {
-          discountBanner.style.display = 'block';
-          dividerLine.style.display = 'block';
-          carousel.style.display = 'block';
-          
-          // Reset carousel index if it's out of bounds
-          if (currentProductIndex >= discountedProducts.length) {
-            currentProductIndex = 0;
-          }
-          
-          // Update carousel with discounted products and grid with all products
-          updateProduct();
-          updateProductsGrid();
-          showNotification(`${products.length} productos cargados, ${discountedProducts.length} con descuento`);
-        } else {
-          discountBanner.style.display = 'none';
-          dividerLine.style.display = 'none';
-          carousel.style.display = 'none';
-          
-          // Still show all products in grid
-          updateProductsGrid();
-          showNotification(`${products.length} productos cargados (sin descuentos)`);
+        try {
+            showNotification('Cargando productos...');
+            const querySnapshot = await window.firestoreFunctions.getDocs(
+            window.firestoreFunctions.collection(window.db, 'products')
+            );
+            
+            products = [];
+            querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            
+            // Calculate discounted price if discount exists
+            const originalPrice = data.rawPrice || 0;
+            const discountPercent = data.discount || 0;
+            const discountedPrice = discountPercent > 0 
+                ? originalPrice * (1 - discountPercent / 100)
+                : originalPrice;
+            
+            products.push({
+                id: doc.id,
+                name: data.name || 'Producto sin nombre',
+                price: data.price || '€0,00', // Use formatted price string
+                rawPrice: originalPrice, // Keep raw price for calculations
+                discount: discountPercent,
+                discountedPrice: discountedPrice,
+                formattedDiscountedPrice: `€${discountedPrice.toFixed(2)}`, // Format discounted price
+                image: data.image || data.imageUrl || 'images/default-product.jpg', // Use Cloudinary URL
+                category: data.category || 'todos',
+                description: data.description || 'Sin descripción disponible',
+                stock: data.stock || 0,
+                minStock: data.minStock || 0,
+                featured: data.featured || false,
+                sku: data.sku || '',
+                cloudinaryPublicId: data.cloudinaryPublicId || '',
+                imageName: data.imageName || '',
+                createdAt: data.createdAt || null,
+                updatedAt: data.updatedAt || null
+            });
+            });
+            
+            // Filter products with discounts for carousel
+            discountedProducts = products.filter(product => product.discount > 0 && product.stock > 0);
+            
+            // Hide/show discount elements based on discounted products
+            const discountBanner = document.querySelector('.discount-banner');
+            const dividerLine = document.querySelector('.divider-line');
+            const carousel = document.querySelector('.product-carousel');
+            
+            if (discountedProducts.length > 0) {
+            if (discountBanner) discountBanner.style.display = 'block';
+            if (dividerLine) dividerLine.style.display = 'block';
+            if (carousel) carousel.style.display = 'block';
+            
+            // Reset carousel index if it's out of bounds
+            if (currentProductIndex >= discountedProducts.length) {
+                currentProductIndex = 0;
+            }
+            
+            // Update carousel with discounted products and grid with all products
+            if (typeof updateProduct === 'function') updateProduct();
+            if (typeof updateProductsGrid === 'function') updateProductsGrid();
+            showNotification(`${products.length} productos cargados, ${discountedProducts.length} con descuento`);
+            } else {
+            if (discountBanner) discountBanner.style.display = 'none';
+            if (dividerLine) dividerLine.style.display = 'none';
+            if (carousel) carousel.style.display = 'none';
+            
+            // Still show all products in grid
+            if (typeof updateProductsGrid === 'function') updateProductsGrid();
+            showNotification(`${products.length} productos cargados (sin descuentos)`);
+            }
+            
+            if (products.length === 0) {
+            showNotification('No se encontraron productos');
+            }
+            
+        } catch (error) {
+            console.error('Error loading products:', error);
+            showNotification('Error al cargar productos: ' + error.message);
         }
-        
-        if (products.length === 0) {
-          showNotification('No se encontraron productos');
-        }
-      } catch (error) {
-        console.error('Error loading products:', error);
-        showNotification('Error al cargar productos');
-      }
     }
 
     // Modified JavaScript Functions
