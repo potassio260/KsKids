@@ -52,7 +52,7 @@
             <span class="category-icon">👶</span>
             Ropa de bebé
         </div>
-        <div class="category-item" onclick="selectCategory(this, 'niños')" data-category="ninos">
+        <div class="category-item" onclick="selectCategory(this, 'niños')" data-category="niños">
             <span class="category-icon">👧</span>
             De niños/as
         </div>
@@ -134,20 +134,6 @@
                         <h3>Ubicación</h3>
                         <p>Beniel, Spain</p>
                         <p class="contact-address">c. Francisco Robles 19</p>
-                    </div>
-                </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">🕒</div>
-                    <div class="contact-details">
-                        <h3>Horario de Atención</h3>
-                        <p>Lunes: 10:30 - 13:30 & 18:00 - 20:00</p>
-                        <p>Martes: 10:30 - 13:30</p>
-                        <p>Miércoles: 10:30 - 13:30 & 18:00 - 20:00</p>
-                        <p>Jueves: 10:30 - 13:30</p>
-                        <p>Viernes: 10:30 - 13:30 & 18:00 - 20:00</p>
-                        <p>Sábados: 10:30 - 13:30</p>
-                        <p>Domingos: Mercado</p>
                     </div>
                 </div>
             </div>
@@ -344,67 +330,91 @@
 
     // Function to load products from Firebase
     async function loadProductsFromFirebase() {
-      try {
-        showNotification('Cargando productos...');
-        const querySnapshot = await window.firestoreFunctions.getDocs(
-          window.firestoreFunctions.collection(window.db, 'products')
-        );
-        
-        products = [];
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          products.push({
-            id: doc.id,
-            name: data.name || 'Producto sin nombre',
-            price: data.price || '0,00 €',
-            discount: data.discount || 0,  
-            discountedPrice: data.discountedPrice || data.price, 
-            image: data.image || 'images/516204036_1213616423896700_999017950145108751_n.jpg',
-            category: data.category || 'todos',
-            description: data.description || ' . . . ',
-            stock: data.stock || 0,
-            featured: data.featured || false
-          });
-        });
-        // Filter products with discounts for carousel
-        discountedProducts = products.filter(product => product.discount > 0 && product.stock > 0);
-        
-        // Hide/show discount elements based on discounted products
-        const discountBanner = document.querySelector('.discount-banner');
-        const dividerLine = document.querySelector('.divider-line');
-        const carousel = document.querySelector('.product-carousel');
-
-        if (discountedProducts.length > 0) {
-          discountBanner.style.display = 'block';
-          dividerLine.style.display = 'block';
-          carousel.style.display = 'block';
-          
-          // Reset carousel index if it's out of bounds
-          if (currentProductIndex >= discountedProducts.length) {
-            currentProductIndex = 0;
-          }
-          
-          // Update carousel with discounted products and grid with all products
-          updateProduct();
-          updateProductsGrid();
-          showNotification(`${products.length} productos cargados, ${discountedProducts.length} con descuento`);
-        } else {
-          discountBanner.style.display = 'none';
-          dividerLine.style.display = 'none';
-          carousel.style.display = 'none';
-          
-          // Still show all products in grid
-          updateProductsGrid();
-          showNotification(`${products.length} productos cargados (sin descuentos)`);
+        try {
+            showNotification('Cargando productos...');
+            const querySnapshot = await window.firestoreFunctions.getDocs(
+            window.firestoreFunctions.collection(window.db, 'products')
+            );
+            
+            products = [];
+            querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            
+            // Calculate discounted price if discount exists
+            const originalPrice = data.rawPrice || 0;
+            const discountPercent = data.discount || 0;
+            const discountedPrice = discountPercent > 0 
+                ? originalPrice * (1 - discountPercent / 100)
+                : originalPrice;
+            
+            // Determine hasDiscount based on discount percentage or explicit hasDiscount field
+            const hasDiscount = data.hasDiscount !== undefined 
+                ? data.hasDiscount 
+                : (discountPercent > 0);
+            
+            products.push({
+                id: doc.id,
+                name: data.name || 'Producto sin nombre',
+                price: data.price || '€0,00', // Use formatted price string
+                rawPrice: originalPrice, // Keep raw price for calculations
+                discount: discountPercent,
+                hasDiscount: hasDiscount, // Use the boolean field
+                discountedPrice: discountedPrice,
+                formattedDiscountedPrice: `€${discountedPrice.toFixed(2)}`, // Format discounted price
+                image: data.image || data.imageUrl || 'images/default-product.jpg', // Use Cloudinary URL
+                category: data.category || 'todos',
+                description: data.description || 'Sin descripción disponible',
+                stock: data.stock || 0,
+                minStock: data.minStock || 0,
+                featured: data.featured || false,
+                sku: data.sku || '',
+                cloudinaryPublicId: data.cloudinaryPublicId || '',
+                imageName: data.imageName || '',
+                createdAt: data.createdAt || null,
+                updatedAt: data.updatedAt || null
+            });
+            });
+            
+            // Filter products with hasDiscount = true for carousel (must also have stock)
+            discountedProducts = products.filter(product => product.hasDiscount === true && product.stock > 0);
+            
+            // Hide/show discount elements based on discounted products
+            const discountBanner = document.querySelector('.discount-banner');
+            const dividerLine = document.querySelector('.divider-line');
+            const carousel = document.querySelector('.product-carousel');
+            
+            if (discountedProducts.length > 0) {
+            if (discountBanner) discountBanner.style.display = 'block';
+            if (dividerLine) dividerLine.style.display = 'block';
+            if (carousel) carousel.style.display = 'block';
+            
+            // Reset carousel index if it's out of bounds
+            if (currentProductIndex >= discountedProducts.length) {
+                currentProductIndex = 0;
+            }
+            
+            // Update carousel with discounted products and grid with all products
+            if (typeof updateProduct === 'function') updateProduct();
+            if (typeof updateProductsGrid === 'function') updateProductsGrid();
+            showNotification(`${products.length} productos cargados, ${discountedProducts.length} con descuento`);
+            } else {
+            if (discountBanner) discountBanner.style.display = 'none';
+            if (dividerLine) dividerLine.style.display = 'none';
+            if (carousel) carousel.style.display = 'none';
+            
+            // Still show all products in grid
+            if (typeof updateProductsGrid === 'function') updateProductsGrid();
+            showNotification(`${products.length} productos cargados (sin descuentos)`);
+            }
+            
+            if (products.length === 0) {
+            showNotification('No se encontraron productos');
+            }
+            
+        } catch (error) {
+            console.error('Error loading products:', error);
+            showNotification('Error al cargar productos: ' + error.message);
         }
-        
-        if (products.length === 0) {
-          showNotification('No se encontraron productos');
-        }
-      } catch (error) {
-        console.error('Error loading products:', error);
-        showNotification('Error al cargar productos');
-      }
     }
 
     // Modified JavaScript Functions
@@ -427,9 +437,9 @@
         modalDescription.textContent = product.description;
         modalCategory.textContent = product.category;
 
-        // Handle pricing
-        if (product.discount > 0) {
-            modalPrice.innerHTML = `<span class="original-price">${product.price}</span><span class="discounted-price">${product.discountedPrice}</span>`;
+        // Handle pricing - use hasDiscount boolean
+        if (product.hasDiscount && product.discount > 0) {
+            modalPrice.innerHTML = `<span class="original-price">${product.price}</span><span class="discounted-price">${product.formattedDiscountedPrice}</span>`;
         } else {
             modalPrice.innerHTML = product.price;
         }
@@ -502,8 +512,9 @@
       }, 3000);
     }
 
+    // Updated to use hasDiscount boolean
     function hasDiscountedProducts() {
-      return products.some(product => product.discount > 0);
+      return products.some(product => product.hasDiscount === true);
     }
 
     function updateProductsGrid() {
@@ -520,14 +531,16 @@
                           product.stock > 0 ? 'low-stock' : 'out-of-stock';
         const stockText = product.stock > 10 ? 'En stock' : 
                           product.stock > 0 ? 'Pocos' : 'Agotado';
-        const priceDisplay = product.discount > 0 
-          ? `<span class="original-price" style="text-decoration: line-through; margin-right: 5px;">${product.price}</span><span style="color: #ff6b6b;">${product.discountedPrice}</span>`
+        
+        // Use hasDiscount boolean for price display
+        const priceDisplay = product.hasDiscount && product.discount > 0
+          ? `<span class="original-price" style="text-decoration: line-through; margin-right: 5px;">${product.price}</span><span style="color: #ff6b6b;">${product.formattedDiscountedPrice}</span>`
           : product.price;
 
         productBox.innerHTML = `
           <div class="product-image">
             <img src="${product.image}" alt="${product.name}" />
-            <div class="price-badge">${product.discount > 0 ? product.discountedPrice : product.price}</div>
+            <div class="price-badge">${product.hasDiscount && product.discount > 0 ? product.formattedDiscountedPrice : product.price}</div>
             <div class="stock-status ${stockStatus}">${stockText}</div>
           </div>
           <div class="product-content">
@@ -544,12 +557,12 @@
       initializeProductClicks();
     }
     
-    // Product carousel functionality
+    // Product carousel functionality - Updated to use hasDiscount boolean
     function updateProduct() {
       if (isTransitioning || discountedProducts.length === 0) return;
       isTransitioning = true;
 
-      // Use discountedProducts array for carousel instead of all products
+      // Use discountedProducts array for carousel (filtered by hasDiscount = true)
       const product = discountedProducts[currentProductIndex];
       const prevIndex = (currentProductIndex - 1 + discountedProducts.length) % discountedProducts.length;
       const nextIndex = (currentProductIndex + 1) % discountedProducts.length;
@@ -570,8 +583,13 @@
         mainImage.alt = product.name;
         productTitle.textContent = product.name;
         
-        // Always show both prices since these are discounted products
-        productPrice.innerHTML = `<span class="original-price">${product.price}</span><span class="discounted-price">${product.discountedPrice}</span>`;
+        // Show both prices since these products have hasDiscount = true
+        if (product.hasDiscount && product.discount > 0) {
+            productPrice.innerHTML = `<span class="original-price">${product.price}</span><span class="discounted-price">${product.formattedDiscountedPrice}</span>`;
+        } else {
+            // Fallback if somehow a product without discount got into discountedProducts
+            productPrice.innerHTML = product.price;
+        }
         
         // Update side images
         sideLeft.src = discountedProducts[prevIndex].image.replace('300&h=400', '120&h=160');
@@ -1224,7 +1242,7 @@
     messagingSenderId: "1061159747962",
     appId: "1:1061159747962:web:0c9f7463e7107a680a56c3",
     measurementId: "G-Y857VG4YYZ"
-  };
+    };
 
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
